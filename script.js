@@ -1,10 +1,28 @@
+const container = document.querySelector('.container');
 
-console.log("hello");
-const fname = "Harley";
+// Imported functions
 
-const container = document.querySelector(".container");
+import {sum} from './functions.js'
+import {extract_season_ids} from './functions.js'
 
-container.textContent = fname;
+// API endpoints
 
-fetch('https://api.football-data.org/v4/teams/19m')
-    .then(res => console.log(res));
+const champions_league_id = 16;
+const competitions_url = 'https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json'
+
+async function getData() {
+    const response = await fetch(competitions_url);
+    const competitions_data = await response.json();
+    console.log(competitions_data);
+    
+    // const total = sum(1,1);
+    // container.textContent = total; 
+
+    const season_ids = extract_season_ids(competitions_data);
+    console.log(season_ids);
+    
+}
+
+getData();
+
+
