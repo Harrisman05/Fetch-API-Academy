@@ -69,7 +69,7 @@ export function extract_lineups(lineup_object) {
                     }
                 }
         
-                extracted_lineup.push([player_number, player_name, player_position_initials])
+                extracted_lineup.push([player_number, player_position_initials, player_name])
                 
             }
 
@@ -113,6 +113,23 @@ export function extract_goal_events(event_object, home_team) {
 
     return [home_goal_events, away_goal_events];
 
+}
+
+export function generate_lineup_table(lineup_array) {
+
+    console.log(lineup_array);
+
+    let lineup_table = ''
+
+    for (let nested_array of lineup_array) {
+        
+        const lineup_row = `<tr><td>${nested_array[0]}</td><td>${nested_array[1]}</td><td>${nested_array[2]}</td></tr>`;
+        lineup_table += lineup_row;
+        
+    }
+
+    return lineup_table;
+    
 }
 
 

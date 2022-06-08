@@ -5,10 +5,13 @@ const away_team_element = document.getElementById('away_team');
 const home_score_element = document.getElementById('home_score');
 const away_score_element = document.getElementById('away_score');
 
+const home_team_lineup_table = document.getElementById('home_team_lineup');
+const away_team_lineup_table = document.getElementById('away_team_lineup');
+
 
 // Imported functions
 
-import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events} from './functions.js'
+import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table} from './functions.js'
 
 // API endpoints
 
@@ -85,6 +88,12 @@ async function getData() {
     away_team_element.textContent += away_team;    
     home_score_element.textContent += home_score;    
     away_score_element.textContent += away_score;    
+   
+    const home_team_table = generate_lineup_table(home_team_lineup);
+    home_team_lineup_table.innerHTML = home_team_table;
+
+    const away_team_table = generate_lineup_table(away_team_lineup);
+    away_team_lineup_table.innerHTML = away_team_table;
 
     }
 
@@ -93,5 +102,4 @@ async function getData() {
     window.getData = getData; // modules are module scoped and not accessible to the window object
 
     // getData();
-
 
