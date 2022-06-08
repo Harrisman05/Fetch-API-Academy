@@ -2,7 +2,7 @@ const container = document.querySelector('.container');
 
 // Imported functions
 
-import {extract_season_ids, extract_tactical_setups, extract_goal_events} from './functions.js'
+import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events} from './functions.js'
 
 // API endpoints
 
@@ -15,7 +15,6 @@ async function getData() {
 
     const competitions_response = await fetch(competitions_url);
     const competitions_data = await competitions_response.json();
-    console.log(competitions_data);
     
     // Generate a random season id
 
@@ -36,33 +35,52 @@ async function getData() {
     const home_score = match_object[0]['home_score'];
     const away_score = match_object[0]['away_score'];
 
-    console.log(match_date, home_team, away_team, home_score, away_score);
+    console.log(match_id, match_date, home_team, away_team, home_score, away_score);
     
 
-    // Generate Event information - Using Match ID
+    // Generate Formations Using Match ID
 
     const event_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/${match_id}.json`
     const event_response = await fetch(event_url);
     const event_object = await event_response.json();
 
-    const [home_team_formation, away_team_formation, home_team_lineup_extracted, away_team_lineup_extracted] = extract_tactical_setups(event_object);
+    const [home_team_formation, away_team_formation] = extract_tactical_setups(event_object);
 
     console.log(home_team_formation);
     console.log(away_team_formation);
-    console.log(home_team_lineup_extracted);
-    console.log(away_team_lineup_extracted);
+
+
+    // Generate Lineups Using Match ID
+
+    const lineup_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/${match_id}.json`
+    const lineup_response = await fetch(lineup_url);
+    const lineup_object = await lineup_response.json();
+
+    console.log(lineup_object);
+
+    const [home_team_lineup, away_team_lineup] = extract_lineups(lineup_object);
+
+    console.log(home_team_lineup);
+    console.log(away_team_lineup);
+    
+    
+
+    // Generate Goal Events
+
 
     const [home_team_goal_events, away_team_goal_events] = extract_goal_events(event_object, home_team);
     
     console.log(home_team_goal_events);
     console.log(away_team_goal_events);
     
-    container.textContent = home_team_lineup_extracted
+    // container.textContent = home_team_lineup_extracted
 
     }
 
     https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
     window.getData = getData; // modules are module scoped and not accessible
+
+    getData();
 
 
