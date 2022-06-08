@@ -20,12 +20,11 @@ export function extract_season_ids(competitions_data) {
     
     const random_index = Math.floor(Math.random() * season_ids.length);
     
-    const random_season_id = season_ids[random_index];
-
+    let random_season_id = season_ids[random_index];
+    random_season_id = 37; // liverpool vs AC Milan 3-3
 
     return random_season_id;
 }
-
 export function extract_tactical_setups(event_object) {
     
     const [home_team_tactical_data, away_team_tactical_data] = [event_object[0], event_object[1]];
@@ -66,6 +65,35 @@ export function extract_tactical_setups(event_object) {
 
     return [home_team_formation, away_team_formation, home_team_lineup_extracted, away_team_lineup_extracted];
      
+}
+export function extract_goal_events(event_object, home_team) {
+
+    const home_goal_events = [];
+    const away_goal_events = [];
+
+    for (const event of event_object) {
+
+        if (event['type']['name'] == 'Shot' && event['shot']['outcome']['name'] === 'Goal' && event['period'] !== 5) {
+            
+            const timestamp = event['minute'].toString() + ':' + event['second'].toString();
+            const goalscorer = event['player']['name'];
+
+            const goal_event = goalscorer + ' - ' + timestamp;
+
+            if (event['possession_team']['name'] === home_team) { // determine if goalscorer is from home or away team
+                home_goal_events.push(goal_event);
+            } else {
+                away_goal_events.push(goal_event);
+            }
+
+            
+
+        }
+
+    }
+
+    return [home_goal_events, away_goal_events];
+
 }
 
 

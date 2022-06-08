@@ -2,7 +2,7 @@ const container = document.querySelector('.container');
 
 // Imported functions
 
-import {extract_season_ids, extract_tactical_setups} from './functions.js'
+import {extract_season_ids, extract_tactical_setups, extract_goal_events} from './functions.js'
 
 // API endpoints
 
@@ -52,8 +52,17 @@ async function getData() {
     console.log(home_team_lineup_extracted);
     console.log(away_team_lineup_extracted);
 
+    const [home_team_goal_events, away_team_goal_events] = extract_goal_events(event_object, home_team);
+    
+    console.log(home_team_goal_events);
+    console.log(away_team_goal_events);
+    
+    container.textContent = home_team_lineup_extracted
+
     }
 
-getData();
+    https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
+
+    window.getData = getData; // modules are module scoped and not accessible
 
 
