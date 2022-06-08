@@ -1,12 +1,134 @@
-export function sum(a, b) {
-    return a + b;
+function sort_lineup(lineup_array) {
+
+    let ranked_lineup = [];
+    
+    for (const nested_array of lineup_array) {
+
+        switch (nested_array[1]) {
+            case "GK":
+                nested_array.push({position_rank: 1});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RB":
+                nested_array.push({position_rank: 2});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RWB":
+                nested_array.push({position_rank: 3});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RCB":
+                nested_array.push({position_rank: 4});
+                ranked_lineup.push(nested_array);
+                break;
+            case "CB":
+                nested_array.push({position_rank: 5});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LCB":
+                nested_array.push({position_rank: 6});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LB":
+                nested_array.push({position_rank: 7});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LWB":
+                nested_array.push({position_rank: 8});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RM":
+                nested_array.push({position_rank: 9});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RCM":
+                nested_array.push({position_rank: 10});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RDM":
+                nested_array.push({position_rank: 11});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RAM":
+                nested_array.push({position_rank: 12});
+                ranked_lineup.push(nested_array);
+                break;
+            case "CM":
+                nested_array.push({position_rank: 13});
+                ranked_lineup.push(nested_array);
+                break;
+            case "CAM":
+                nested_array.push({position_rank: 14});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LCM":
+                nested_array.push({position_rank: 15});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LDM":
+                nested_array.push({position_rank: 16});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LAM":
+                nested_array.push({position_rank: 17});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LM":
+                nested_array.push({position_rank: 18});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RW":
+                nested_array.push({position_rank: 19});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RCF":
+                nested_array.push({position_rank: 20});
+                ranked_lineup.push(nested_array);
+                break;
+            case "SS":
+                nested_array.push({position_rank: 21});
+                ranked_lineup.push(nested_array);
+                break;
+            case "CF":
+                nested_array.push({position_rank: 22});
+                ranked_lineup.push(nested_array);
+                break;
+            case "ST":
+                nested_array.push({position_rank: 23});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LCF":
+                nested_array.push({position_rank: 24});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LW":
+                nested_array.push({position_rank: 25});
+                ranked_lineup.push(nested_array);
+                break;
+
+        }
+
+    }
+
+    const sorted_lineup = ranked_lineup.sort((a,b) => {
+        return a[3].position_rank - b[3].position_rank;
+    });
+
+    const original_sorted_lineup = sorted_lineup.map((element) => {
+        element.pop();
+        return element;
+    })
+
+    console.log(original_sorted_lineup);
+       
+    return original_sorted_lineup;
 }
 
 // Season ID
 
-let season_ids = []
-
 export function extract_season_ids(competitions_data) {
+
+    let season_ids = [];
 
     console.log(competitions_data);
     
@@ -75,7 +197,9 @@ export function extract_lineups(lineup_object) {
 
         }
 
-        return extracted_lineup;
+        const sorted_lineup = sort_lineup(extracted_lineup);
+
+        return sorted_lineup;
 
     }
 

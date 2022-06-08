@@ -12,9 +12,20 @@ body {
     padding: 0;
 }
 
+button {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    padding: 5px;
+}
+
+#cl_final_header {
+    text-align: center;
+    margin:20px 0;
+}
+
 .match_result {
     margin: auto;
-    border: solid black 5px;
     padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;

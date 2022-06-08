@@ -39,7 +39,7 @@ async function getData() {
 
     const match_id = match_object[0]['match_id'];
     let match_date = match_object[0]['match_date'];
-    match_date = match_date.slice(0,4)
+    match_date = match_date.slice(0,4);
     const home_team = match_object[0]['home_team']['home_team_name'];
     const away_team = match_object[0]['away_team']['away_team_name'];
     const home_score = match_object[0]['home_score'];
@@ -66,12 +66,12 @@ async function getData() {
     const lineup_response = await fetch(lineup_url);
     const lineup_object = await lineup_response.json();
 
-    console.log(lineup_object);
+    // console.log(lineup_object);
 
     const [home_team_lineup, away_team_lineup] = extract_lineups(lineup_object);
 
-    console.log(home_team_lineup);
-    console.log(away_team_lineup);
+    // console.log(home_team_lineup);
+    // console.log(away_team_lineup);
     
     // Generate Goal Events
 
