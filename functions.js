@@ -83,11 +83,7 @@ export function extract_lineups(lineup_object) {
     const away_team_lineup_extracted = generate_lineups(away_team_lineup_object);     
 
     return [home_team_lineup_extracted, away_team_lineup_extracted];
-}
-
-
-    
-     
+}   
 
 export function extract_goal_events(event_object, home_team) {
 

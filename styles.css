@@ -1,0 +1,24 @@
+html {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    padding: 20px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.match_result {
+    margin: auto;
+    border: solid black 5px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: fit-content;
+    gap: 30px;
+    justify-items: center;
+}

@@ -1,4 +1,10 @@
 const container = document.querySelector('.container');
+const cl_header_final = document.getElementById('cl_final_header');
+const home_team_element = document.getElementById('home_team');
+const away_team_element = document.getElementById('away_team');
+const home_score_element = document.getElementById('home_score');
+const away_score_element = document.getElementById('away_score');
+
 
 // Imported functions
 
@@ -29,7 +35,8 @@ async function getData() {
     // Extract match metadata from match object
 
     const match_id = match_object[0]['match_id'];
-    const match_date = match_object[0]['match_date'];
+    let match_date = match_object[0]['match_date'];
+    match_date = match_date.slice(0,4)
     const home_team = match_object[0]['home_team']['home_team_name'];
     const away_team = match_object[0]['away_team']['away_team_name'];
     const home_score = match_object[0]['home_score'];
@@ -63,24 +70,28 @@ async function getData() {
     console.log(home_team_lineup);
     console.log(away_team_lineup);
     
-    
-
     // Generate Goal Events
-
 
     const [home_team_goal_events, away_team_goal_events] = extract_goal_events(event_object, home_team);
     
     console.log(home_team_goal_events);
     console.log(away_team_goal_events);
     
-    // container.textContent = home_team_lineup_extracted
+    // Appending text to the DOM
+
+    cl_header_final.textContent += match_date;
+
+    home_team_element.textContent += home_team;    
+    away_team_element.textContent += away_team;    
+    home_score_element.textContent += home_score;    
+    away_score_element.textContent += away_score;    
 
     }
 
     https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
-    window.getData = getData; // modules are module scoped and not accessible
+    window.getData = getData; // modules are module scoped and not accessible to the window object
 
-    getData();
+    // getData();
 
 
