@@ -54,3 +54,152 @@ button {
     text-align: left;
     padding-left: 50px;
 }
+
+.pitch_container {
+    border: 5px solid green;
+    margin: 20px auto;
+    width: fit-content;
+    position: relative;
+}
+
+.pitch_container img {
+    height: 650px;
+}
+
+.pitch_container .player_circle {
+    position: absolute;
+    border-radius: 50%;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: center;
+    width: 28.375px;
+    padding: 5px;
+}
+
+.pitch_container .away_circle {
+    background-color: red;
+    border: rgb(0, 0, 0) solid 1px;
+}
+
+.pitch_container .home_circle {
+    background-color: rgb(255, 255, 255);
+    border: rgb(0, 0, 0) solid 1px;
+}
+
+#pos1_away { /* Goalkeeper */
+    /* top: 35px; */
+    top: 5.5%;
+    left: calc(50% - (28.375px/2));
+}
+
+#pos2_away { /* RB */
+    /* top: 100px */
+    top: 15.7%;
+    /* left: 50px; */
+    left: 7.85%;
+}
+
+#pos3_away { /* RCB*/
+    top: 15.7%;
+    left: 33%;
+}
+
+#pos4_away { /* LCB*/
+    top: 15.7%;
+    right: 33%;
+}
+
+#pos5_away { /* LB */
+    top: 15.7%;
+    right: 7.85%;
+}
+
+#pos6_away { /* RM */
+    top: 28.7%;
+    left: 7.85%;
+}
+
+#pos7_away { /* RCM */
+    top: 28.7%;
+    left: 33%;
+}
+
+#pos8_away { /* LDM */
+    top: 24.7%;
+    right: 33%;
+}
+
+#pos9_away { /* LM */
+    top: 28.7%;
+    right: 7.85%;
+}
+
+#pos10_away { /* CAM */
+    top: 35.7%;
+    left: calc(50% - (28.375px/2));
+}
+
+#pos11_away { /* LCF */
+    top: 43.7%;
+    left: calc(50% - (28.375px/2));
+}
+
+/* Home Team positions */
+
+#pos1_home { /* Goalkeeper */
+    /* top: -35px; */
+    bottom: 5.5%;
+    left: calc(50% - (28.375px/2));
+}
+
+#pos2_home { /* RB */
+    /* bottom: -100px */
+    bottom: 15.7%;
+    /* right: 50px; */
+    right: 7.85%;
+}
+
+#pos3_home { /* RCB*/
+    bottom: 15.7%;
+    right: 33%;
+}
+
+#pos4_home { /* LCB*/
+    bottom: 15.7%;
+    left: 33%;
+}
+
+#pos5_home { /* LB */
+    bottom: 15.7%;
+    left: 7.85%;
+}
+
+#pos6_home { /* RCM */
+    bottom: 28.7%;
+    right: 33%;
+}
+
+#pos7_home { /* CDM */
+    bottom: 24.7%;
+    left: calc(50% - (28.375px/2));
+}
+
+#pos8_home { /* LCM */
+    bottom: 28.7%;
+    left: 33%;
+}
+
+#pos9_home { /* CAM */
+    bottom: 35.7%;
+    left: calc(50% - (28.375px/2));
+}
+
+#pos10_home { /* RCF */
+    bottom: 43.7%;
+    right: 38%;
+}
+
+#pos11_home { /* LCF */
+    bottom: 43.7%;
+    left: 38%;
+}

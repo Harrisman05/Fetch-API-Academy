@@ -101,5 +101,5 @@ async function getData() {
 
     window.getData = getData; // modules are module scoped and not accessible to the window object
 
-    // getData();
+    getData();
 

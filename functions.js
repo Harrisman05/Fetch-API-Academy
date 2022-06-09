@@ -49,31 +49,35 @@ function sort_lineup(lineup_array) {
                 nested_array.push({position_rank: 11});
                 ranked_lineup.push(nested_array);
                 break;
-            case "RAM":
+            case "CM":
                 nested_array.push({position_rank: 12});
                 ranked_lineup.push(nested_array);
                 break;
-            case "CM":
-                nested_array.push({position_rank: 13});
-                ranked_lineup.push(nested_array);
-                break;
-            case "CAM":
-                nested_array.push({position_rank: 14});
+            case "CDM":
+                nested_array.push({position_rank: 12});
                 ranked_lineup.push(nested_array);
                 break;
             case "LCM":
-                nested_array.push({position_rank: 15});
+                nested_array.push({position_rank: 13});
                 ranked_lineup.push(nested_array);
                 break;
             case "LDM":
-                nested_array.push({position_rank: 16});
-                ranked_lineup.push(nested_array);
-                break;
-            case "LAM":
-                nested_array.push({position_rank: 17});
+                nested_array.push({position_rank: 14});
                 ranked_lineup.push(nested_array);
                 break;
             case "LM":
+                nested_array.push({position_rank: 15});
+                ranked_lineup.push(nested_array);
+                break;
+            case "RAM":
+                nested_array.push({position_rank: 16});
+                ranked_lineup.push(nested_array);
+                break;
+            case "CAM":
+                nested_array.push({position_rank: 17});
+                ranked_lineup.push(nested_array);
+                break;
+            case "LAM":
                 nested_array.push({position_rank: 18});
                 ranked_lineup.push(nested_array);
                 break;
@@ -143,7 +147,7 @@ export function extract_season_ids(competitions_data) {
     const random_index = Math.floor(Math.random() * season_ids.length);
     
     let random_season_id = season_ids[random_index];
-    // random_season_id = 37; // liverpool vs AC Milan 3-3
+    random_season_id = 37; // liverpool vs AC Milan 3-3
     
     return random_season_id;
 }
@@ -161,6 +165,9 @@ export function extract_lineups(lineup_object) {
     const home_team_lineup_object = lineup_object[0]['lineup'];
     const away_team_lineup_object = lineup_object[1]['lineup'];
        
+    console.log(home_team_lineup_object);
+    console.log(away_team_lineup_object);
+    
     function generate_lineups(lineup_object) {
 
         const extracted_lineup = [];        
