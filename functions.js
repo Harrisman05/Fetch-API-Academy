@@ -285,31 +285,30 @@ export function populate_empty_pitch(lineup_array) {
 
     const last_name_array = extract_last_names(lineup_array);
 
-    console.log(lineup_array);
     console.log(last_name_array);
+    console.log(last_name_array.length);    
+
+    for (let i = 1; i < last_name_array.length + 1; i++) {
+
+
+        const position_circle = document.querySelector(`#pos${i}_home`);
+        position_circle.textContent = lineup_array[i - 1][0];
+
+        const player_span = document.querySelector(`#span${i}_home`);
+        player_span.textContent = last_name_array[i - 1];
+
+        if (last_name_array[i - 1].length > 8) {
+            player_span.style.fontSize = "14px"; 
+        } else if (last_name_array[i - 1].length > 10) {
+             player_span.style.fontSize = "12px";
+        }
+
+
+        
+
+
+    }
     
-
-    const pitch_positions_htmlCollection = document.querySelector('.home_team_pitch_positions').children; // generates HTML collection
-
-    const pitch_positions_array = [...pitch_positions_htmlCollection];
-    console.log(pitch_positions_array);
-
-    pitch_positions_array.forEach((node_element, index) => {
-        node_element.textContent = lineup_array[index][0];
-        node_element.setAttribute('player_name', last_name_array[index])
-
-    });
-
-    // Updating a pseudo element's content directly
-
-    /*  https://stackoverflow.com/questions/10495243/how-change-content-value-of-pseudo-before-element-by-javascript
-
-
-    I hope the below snippet might help, you can specify the content value you want via JS using the CSS attr() function. Below you have two options: to use JavaScript or jQuery:
-
-    var graphElem = document.querySelector('.graph');
-    graphElem.addEventListener('click', function (event) {
-    event.target.setAttribute('data-before', 'anything'); */
 
     
     

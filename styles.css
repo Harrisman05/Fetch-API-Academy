@@ -67,13 +67,13 @@ button {
 }
 
 .pitch_container .player_circle {
-    position: absolute;
+    /* position: absolute;
     border-radius: 50%;
     font-weight: bold;
     text-align: center;
     vertical-align: center;
     width: 28.375px;
-    padding: 5px;
+    padding: 5px; */
 }
 
 .pitch_container .away_circle {
@@ -85,6 +85,7 @@ button {
     background-color: rgb(255, 255, 255);
     border: rgb(0, 0, 0) solid 1px;
 }
+
 
 #pos1_away { /* Goalkeeper */
     /* top: 35px; */
@@ -146,160 +147,82 @@ button {
 
 /* Home Team positions */
 
-#pos1_home { /* Goalkeeper */
-    /* top: -35px; */
-    bottom: 5.5%;
-    left: calc(50% - (28.375px/2));
-    position: absolute;
-}
-
-#pos1_home::after {
-    content: attr(player_name);
-    position: absolute;
+.player_circle2 {
+    border-radius: 50%;
+    font-weight: bold;
     text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
+    vertical-align: center;
+    width: 28.375px;
+    padding: 5px;
 }
 
-#pos2_home { /* RB */
-    /* bottom: -100px */
-    bottom: 15.7%;
-    /* right: 50px; */
+.circle_and_name_container {
+    /* border: 1px black solid; */
+    width: 50px;
+    height: 52.6667px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    position: absolute;
+}
+
+#container1_home { /* GK */
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#container2_home { /* RB */
+    bottom: 12.5%;
     right: 7.85%;
 }
 
-#pos2_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
+#container3_home { /* RCB */
+    bottom: 12.5%;
+    right: 31%;
 }
 
-#pos3_home { /* RCB*/
-    bottom: 15.7%;
-    right: 33%;
+#container4_home { /* LCB */
+    bottom: 12.5%;
+    left: 31%;
 }
 
-#pos3_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
-
-#pos4_home { /* LCB*/
-    bottom: 15.7%;
-    left: 33%;
-}
-
-#pos4_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
-
-#pos5_home { /* LB */
-    bottom: 15.7%;
+#container5_home { /* LB */
+    bottom: 12.5%;
     left: 7.85%;
 }
 
-#pos5_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
+#container6_home { /* RCM */
+    bottom: 25.7%;
+    right: 31%;
+}
+
+#container7_home { /* CDM */
+    bottom: 20.7%;
     left: 50%;
-    transform: translateX(-47%);
+    transform: translateX(-50%);
 }
 
-#pos6_home { /* RCM */
-    bottom: 28.7%;
-    right: 33%;
+#container8_home { /* LCM */
+    bottom: 25.7%;
+    left: 31%;
 }
 
-#pos6_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
+#container9_home { /* CAM */
+    bottom: 31.7%;
     left: 50%;
-    transform: translateX(-47%);
+    transform: translateX(-50%);
 }
 
-#pos7_home { /* CDM */
-    bottom: 24.7%;
-    left: calc(50% - (28.375px/2));
+#container10_home { /* RCF */
+    bottom: 40.7%;
+    right: 34%;
 }
 
-#pos7_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
+#container11_home { /* LCF */
+    bottom: 40.7%;
+    left: 34%;
 }
 
-#pos8_home { /* LCM */
-    bottom: 28.7%;
-    left: 33%;
-}
 
-#pos8_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
-
-#pos9_home { /* CAM */
-    bottom: 35.7%;
-    left: calc(50% - (28.375px/2));
-}
-
-#pos9_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
-
-#pos10_home { /* RCF */
-    bottom: 43.7%;
-    right: 38%;
-}
-
-#pos10_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
-
-#pos11_home { /* LCF */
-    bottom: 43.7%;
-    left: 38%;
-}
-
-#pos11_home::after {
-    content: attr(player_name);
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-47%);
-}
