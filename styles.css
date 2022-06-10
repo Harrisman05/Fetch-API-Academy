@@ -150,6 +150,16 @@ button {
     /* top: -35px; */
     bottom: 5.5%;
     left: calc(50% - (28.375px/2));
+    position: absolute;
+}
+
+#pos1_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }
 
 #pos2_home { /* RB */
@@ -159,9 +169,27 @@ button {
     right: 7.85%;
 }
 
+#pos2_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
+}
+
 #pos3_home { /* RCB*/
     bottom: 15.7%;
     right: 33%;
+}
+
+#pos3_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }
 
 #pos4_home { /* LCB*/
@@ -169,9 +197,27 @@ button {
     left: 33%;
 }
 
+#pos4_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
+}
+
 #pos5_home { /* LB */
     bottom: 15.7%;
     left: 7.85%;
+}
+
+#pos5_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }
 
 #pos6_home { /* RCM */
@@ -179,9 +225,27 @@ button {
     right: 33%;
 }
 
+#pos6_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
+}
+
 #pos7_home { /* CDM */
     bottom: 24.7%;
     left: calc(50% - (28.375px/2));
+}
+
+#pos7_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }
 
 #pos8_home { /* LCM */
@@ -189,9 +253,27 @@ button {
     left: 33%;
 }
 
+#pos8_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
+}
+
 #pos9_home { /* CAM */
     bottom: 35.7%;
     left: calc(50% - (28.375px/2));
+}
+
+#pos9_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }
 
 #pos10_home { /* RCF */
@@ -199,7 +281,25 @@ button {
     right: 38%;
 }
 
+#pos10_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
+}
+
 #pos11_home { /* LCF */
     bottom: 43.7%;
     left: 38%;
+}
+
+#pos11_home::after {
+    content: attr(player_name);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-47%);
 }

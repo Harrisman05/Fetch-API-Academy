@@ -263,5 +263,62 @@ export function generate_lineup_table(lineup_array) {
     
 }
 
+export function populate_empty_pitch(lineup_array) {
+
+    function extract_last_names(lineup_array) {
+        
+        const last_name_array = lineup_array.map((element, index) => {
+
+            const split_names = element[2].split(" ");
+
+            if (split_names.length > 1) {
+                return split_names.at(-1);
+            } else {
+                return split_names[0]
+            }
+            
+        });
+
+        return last_name_array;
+            
+    }
+
+    const last_name_array = extract_last_names(lineup_array);
+
+    console.log(lineup_array);
+    console.log(last_name_array);
+    
+
+    const pitch_positions_htmlCollection = document.querySelector('.home_team_pitch_positions').children; // generates HTML collection
+
+    const pitch_positions_array = [...pitch_positions_htmlCollection];
+    console.log(pitch_positions_array);
+
+    pitch_positions_array.forEach((node_element, index) => {
+        node_element.textContent = lineup_array[index][0];
+        node_element.setAttribute('player_name', last_name_array[index])
+
+    });
+
+    // Updating a pseudo element's content directly
+
+    /*  https://stackoverflow.com/questions/10495243/how-change-content-value-of-pseudo-before-element-by-javascript
+
+
+    I hope the below snippet might help, you can specify the content value you want via JS using the CSS attr() function. Below you have two options: to use JavaScript or jQuery:
+
+    var graphElem = document.querySelector('.graph');
+    graphElem.addEventListener('click', function (event) {
+    event.target.setAttribute('data-before', 'anything'); */
+
+    
+    
+
+
+    
+    
+
+}
+
 
 

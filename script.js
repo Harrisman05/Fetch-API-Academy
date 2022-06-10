@@ -11,7 +11,7 @@ const away_team_lineup_table = document.getElementById('away_team_lineup');
 
 // Imported functions
 
-import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table} from './functions.js'
+import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table, populate_empty_pitch} from './functions.js'
 
 // API endpoints
 
@@ -94,6 +94,11 @@ async function getData() {
 
     const away_team_table = generate_lineup_table(away_team_lineup);
     away_team_lineup_table.innerHTML = away_team_table;
+
+    // populating empty pitch
+
+    populate_empty_pitch(home_team_lineup);
+
 
     }
 
