@@ -185,26 +185,35 @@ function sort_lineup(lineup_array) {
 export function extract_season_ids(competitions_data) {
 
     let season_ids = [];
+    let competition_ids = [];
+
+    let comp_and_season_map = new Map();
 
     for (const competition_object of competitions_data) {
-        if (competition_object['competition_name'] === 'Champions League') {
-            season_ids.push(competition_object['season_id'])
-        }
-    }
 
-    for (let i = 0; i < season_ids.length; i++) { // remove id 76 as it contains no data
-        if (season_ids[i] === 76) {
-            season_ids.splice(i, 1);
-        }
-    }
+            competition_ids.push(competition_object['competition_id']);
 
-    const random_index = Math.floor(Math.random() * season_ids.length);
+            if (!comp_and_season_map.has(competition_object['competition_id'])) {
+                comp_and_season_map.set(competition_object['competition_id'], []);
+            }
 
-    let random_season_id = season_ids[random_index];
-    console.log(season_ids);
-    console.log(random_season_id);
+            if (comp_and_season_map.has(competition_object['competition_id'])) {
+               comp_and_season_map.get(competition_object['competition_id']).push(competition_object['season_id']);
+            }
 
-    return random_season_id;
+            season_ids.push([competition_object['competition_id'],competition_object['season_id']]);
+    }  
+
+    competition_ids = Array.from(new Set(competition_ids));
+    
+    const random_competition_index = Math.floor(Math.random() * competition_ids.length);
+    const random_competition_id = competition_ids[random_competition_index];
+
+    const random_season_id_array = comp_and_season_map.get(random_competition_id);
+    const random_season_index = Math.floor(Math.random() * random_season_id_array.length);
+    const random_season_id = random_season_id_array[random_season_index];
+
+    return [random_competition_id, random_season_id];
 }
 export function extract_tactical_setups(event_object) {
 
@@ -349,9 +358,6 @@ export function calculate_positions(team, lineup_array, formation) {
     for (let i = 1; i < lineup_array.length + 1; i++) {
 
         let iterated_position = document.getElementById(`container${i}_${team}`);
-
-        // for away formation, bottom = top, left = right and right = left
-
 
         // default positions are for HOME TEAM
         let [vertical_position, left_side, right_side, transform_percentage] = ["bottom", "left", "right", "-50%"];

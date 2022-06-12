@@ -15,7 +15,7 @@ import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_go
 
 // API endpoints
 
-const champions_league_id = 16;
+let competition_id
 
 const competitions_url = 'https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json'
 
@@ -28,18 +28,18 @@ async function getData() {
     
     // Generate a random season id
 
-    const random_season_id = extract_season_ids(competitions_data);
+    const [random_competition_id, random_season_id] = extract_season_ids(competitions_data);
     
-    // Generate Match id - Using champions_league_id + random_season_id
+    // Generate Match id - Using competition_id + random_season_id
 
-    const match_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/${champions_league_id}/${random_season_id}.json`
+    const match_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/${random_competition_id}/${random_season_id}.json`
     const match_response = await fetch(match_url);
     const match_object = await match_response.json();
 
     // Extract match metadata from match object
 
     let match_id = match_object[0]['match_id'];
-    // match_id = 3750201;
+    match_id = 3788753;
     let match_date = match_object[0]['match_date'];
     console.log(match_date);
     match_date = match_date.slice(0,4);
