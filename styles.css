@@ -67,13 +67,13 @@ button {
 }
 
 .pitch_container .player_circle {
-    /* position: absolute;
     border-radius: 50%;
     font-weight: bold;
     text-align: center;
     vertical-align: center;
     width: 28.375px;
-    padding: 5px; */
+    padding: 5px;
+    overflow: visible;
 }
 
 .pitch_container .away_circle {
@@ -86,6 +86,9 @@ button {
     border: rgb(0, 0, 0) solid 1px;
 }
 
+.span_names {
+    width: max-content;
+}
 
 #pos1_away { /* Goalkeeper */
     /* top: 35px; */
@@ -147,15 +150,6 @@ button {
 
 /* Home Team positions */
 
-.player_circle2 {
-    border-radius: 50%;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: center;
-    width: 28.375px;
-    padding: 5px;
-}
-
 .circle_and_name_container {
     /* border: 1px black solid; */
     width: 50px;
@@ -168,61 +162,61 @@ button {
 }
 
 #container1_home { /* GK */
-    bottom: 3%;
+    /* bottom: 3%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
 }
 
 #container2_home { /* RB */
-    bottom: 12.5%;
-    right: 7.85%;
+    /* bottom: 12.5%;
+    right: 7.85%; */
 }
 
 #container3_home { /* RCB */
-    bottom: 12.5%;
-    right: 31%;
+    /* bottom: 12.5%;
+    right: 31%; */
 }
 
 #container4_home { /* LCB */
-    bottom: 12.5%;
-    left: 31%;
+    /* bottom: 12.5%;
+    left: 31%; */
 }
 
 #container5_home { /* LB */
-    bottom: 12.5%;
-    left: 7.85%;
+    /* bottom: 12.5%;
+    left: 7.85%; */
 }
 
 #container6_home { /* RCM */
-    bottom: 25.7%;
-    right: 31%;
+    /* bottom: 27.1%;
+    right: 31%; */
 }
 
 #container7_home { /* CDM */
-    bottom: 20.7%;
+    /* bottom: 19.8%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
 }
 
 #container8_home { /* LCM */
-    bottom: 25.7%;
-    left: 31%;
+    /* bottom: 27.1%;
+    left: 31%; */
 }
 
 #container9_home { /* CAM */
-    bottom: 31.7%;
+    /* bottom: 34.4%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
 }
 
 #container10_home { /* RCF */
-    bottom: 40.7%;
-    right: 34%;
+    /* bottom: 41.7%;
+    right: 31%; */
 }
 
 #container11_home { /* LCF */
-    bottom: 40.7%;
-    left: 34%;
+    /* bottom: 41.7%;
+    left: 31%; */
 }
 
 

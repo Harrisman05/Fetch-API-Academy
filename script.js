@@ -11,7 +11,7 @@ const away_team_lineup_table = document.getElementById('away_team_lineup');
 
 // Imported functions
 
-import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table, populate_empty_pitch} from './functions.js'
+import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table, populate_empty_pitch, calculate_positions} from './functions.js'
 
 // API endpoints
 
@@ -99,8 +99,14 @@ async function getData() {
 
     populate_empty_pitch(home_team_lineup);
 
+    // calculate pitch positions
 
-    }
+    calculate_positions(home_team_lineup);
+}
+
+
+
+
 
     https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
