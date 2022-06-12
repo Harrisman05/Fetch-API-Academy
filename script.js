@@ -16,6 +16,7 @@ import {extract_season_ids, extract_tactical_setups, extract_lineups, extract_go
 // API endpoints
 
 const champions_league_id = 16;
+
 const competitions_url = 'https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json'
 
 async function getData() {
@@ -37,8 +38,10 @@ async function getData() {
 
     // Extract match metadata from match object
 
-    const match_id = match_object[0]['match_id'];
+    let match_id = match_object[0]['match_id'];
+    // match_id = 3750201;
     let match_date = match_object[0]['match_date'];
+    console.log(match_date);
     match_date = match_date.slice(0,4);
     const home_team = match_object[0]['home_team']['home_team_name'];
     const away_team = match_object[0]['away_team']['away_team_name'];
@@ -97,16 +100,14 @@ async function getData() {
 
     // populating empty pitch
 
-    populate_empty_pitch(home_team_lineup);
+    populate_empty_pitch('home', home_team_lineup);
+    populate_empty_pitch('away', away_team_lineup);
 
     // calculate pitch positions
 
-    calculate_positions(home_team_lineup);
+    calculate_positions('home', home_team_lineup, home_team_formation);
+    calculate_positions('away', away_team_lineup, away_team_formation);
 }
-
-
-
-
 
     https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
