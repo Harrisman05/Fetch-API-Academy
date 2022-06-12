@@ -201,11 +201,11 @@ export function extract_season_ids(competitions_data) {
     const random_index = Math.floor(Math.random() * season_ids.length);
 
     let random_season_id = season_ids[random_index];
-
+    random_season_id = 44;
     console.log(season_ids);
 
 
-    random_season_id = 25;
+    // random_season_id = 25;
     // random_season_id = 37; // liverpool vs AC Milan 3-3
 
     console.log(random_season_id);
@@ -348,10 +348,13 @@ export function populate_empty_pitch(lineup_array) {
         const player_span = document.querySelector(`#span${i}_home`);
         player_span.textContent = last_name_array[i - 1];
 
-        if (last_name_array[i - 1].length > 8) {
-            player_span.style.fontSize = "14px";
-        } else if (last_name_array[i - 1].length > 10) {
+        console.log(last_name_array[i-1].length);
+        
+
+        if  (last_name_array[i - 1].length > 10) {
             player_span.style.fontSize = "12px";
+        } else if (last_name_array[i - 1].length > 8) {
+            player_span.style.fontSize = "14px";
         }
     }
 }
@@ -391,32 +394,32 @@ export function calculate_positions(lineup_array) {
                 iterated_position.style.left = "7.85%";
                 break;
             case "LWB":
-
                 break;
             case "RM":
-
                 break;
             case "RCM":
-                iterated_position.style.bottom = "27.1%";
-                iterated_position.style.right = "31%";
+                iterated_position.style.bottom = "25.275%";
+                iterated_position.style.right = "25.2125%";
                 break;
             case "RDM":
-
+                iterated_position.style.bottom = "22.065625%";
+                iterated_position.style.right = "25.2125%"
                 break;
             case "CM":
 
                 break;
             case "CDM":
-                iterated_position.style.bottom = "19.8%";
+                iterated_position.style.bottom = "22.065625%";
                 iterated_position.style.left = "50%";
                 iterated_position.style.transform = "translateX(-50%)";
                 break;
             case "LCM":
-                iterated_position.style.bottom = "27.1%";
-                iterated_position.style.left = "31%";
+                iterated_position.style.bottom = "25.275%";
+                iterated_position.style.left = "25.2125%";
                 break;
             case "LDM":
-
+                iterated_position.style.bottom = "22.065625%";
+                iterated_position.style.left = "25.2125%"
                 break;
             case "LM":
 
@@ -425,7 +428,7 @@ export function calculate_positions(lineup_array) {
 
                 break;
             case "CAM":
-                iterated_position.style.bottom = "34.4%";
+                iterated_position.style.bottom = "31.6625%";
                 iterated_position.style.left = "50%";
                 iterated_position.style.transform = "translateX(-50%)";
                 break;
@@ -433,14 +436,17 @@ export function calculate_positions(lineup_array) {
 
                 break;
             case "RW":
-
+                iterated_position.style.bottom = "38.05%";
+                iterated_position.style.right = "13.6375%";
                 break;
             case "RCF":
                 iterated_position.style.bottom = "41.7%";
                 iterated_position.style.right = "31%";
                 break;
             case "SS":
-
+                iterated_position.style.bottom = "31.6625%";
+                iterated_position.style.left = "50%";
+                iterated_position.style.transform = "translateX(-50%)";
                 break;
             case "CF":
                 iterated_position.style.bottom = "41.7%";
@@ -455,7 +461,8 @@ export function calculate_positions(lineup_array) {
                 iterated_position.style.left = "31%";
                 break;
             case "LW":
-
+                iterated_position.style.bottom = "38.05%";
+                iterated_position.style.left = "13.6375%";
                 break;
 
         }
