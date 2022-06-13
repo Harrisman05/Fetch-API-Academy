@@ -212,11 +212,10 @@ export function extract_season_ids(competitions_data) {
     let random_season_id = random_season_id_array[random_season_index];
 
     console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
-    
-    
-    random_competition_id =  11
-    random_season_id = 21;
-    
+
+
+    // random_competition_id = 2;
+    // random_season_id = 44;
 
     return [random_competition_id, random_season_id];
 }
@@ -225,11 +224,13 @@ export function generate_random_match_id(match_object_array) {
 
     console.log(match_object_array.length);
     const random_match_id_index = Math.floor(Math.random() * match_object_array.length);
-    console.log(random_match_id_index);
+    console.log(`Random match index - ${random_match_id_index}`);
 
     let random_match_object = match_object_array[random_match_id_index];
-    random_match_object = match_object_array[4];
-    
+    random_match_object = match_object_array[random_match_id_index];
+
+
+
     console.log(random_match_object);
 
     return random_match_object;
@@ -247,11 +248,14 @@ export function extract_tactical_setups(event_object) {
 
 export function extract_lineups(lineup_object, home_team, away_team) {
 
+    console.log(lineup_object);
+
+
     let home_team_lineup_object = '';
     let away_team_lineup_object = '';
 
     console.log(lineup_object);
-    
+
     for (let i = 0; i < lineup_object.length; i++) {
         if (lineup_object[i]["team_name"] === home_team) {
             home_team_lineup_object = lineup_object[i]['lineup'];
@@ -262,7 +266,6 @@ export function extract_lineups(lineup_object, home_team, away_team) {
 
     console.log(lineup_object);
     console.log(home_team_lineup_object);
-    
 
     function generate_lineups(lineup_object) {
 
@@ -273,6 +276,7 @@ export function extract_lineups(lineup_object, home_team, away_team) {
             if (data['positions'].length !== 0 && data['positions'][0]['start_reason'] === "Starting XI") {
 
                 let player_name;
+                let player_number;
 
                 if (data['player_nickname'] !== null) {
                     player_name = data['player_nickname'];
@@ -280,7 +284,11 @@ export function extract_lineups(lineup_object, home_team, away_team) {
                     player_name = data['player_name']
                 }
 
-                const player_number = data['jersey_number'].toString();
+                if (data['jersey_number'] === 0) {
+                    player_number = "?"
+                } else {
+                    player_number = data['jersey_number'].toString();
+                }
 
                 const player_position = data['positions'][0]['position'];
                 const player_position_split = player_position.split(" ");
@@ -297,6 +305,8 @@ export function extract_lineups(lineup_object, home_team, away_team) {
             }
         }
         const sorted_lineup = sort_lineup(extracted_lineup);
+        console.log(sorted_lineup);
+
         return sorted_lineup;
     }
 
@@ -382,8 +392,8 @@ export function populate_empty_pitch(team, lineup_array) {
         player_span.textContent = last_name_array[i - 1];
 
         if (last_name_array[i - 1].length > 14) {
-            player_span.style.fontSize = "12px";
-        } else if (last_name_array[i - 1].length > 9) {
+            player_span.style.fontSize = "11px";
+        } else if (last_name_array[i - 1].length > 10) {
             player_span.style.fontSize = "13px";
         }
     }
@@ -405,8 +415,8 @@ export function calculate_positions(team, lineup_array, formation) {
             right_side = "left";
             transform_percentage = "50%";
         }
-        
-        let position = lineup_array[i - 1][1];           
+
+        let position = lineup_array[i - 1][1];
 
         switch (position) {
             case "GK":
@@ -478,7 +488,7 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[left_side] = "7.85%";
                 break;
             case "RAM":
-                iterated_position.style[vertical_position] = "34.4875%";
+                iterated_position.style[vertical_position] = "33.4875%";
                 iterated_position.style[right_side] = "31%";
                 break;
             case "CAM":
@@ -487,7 +497,7 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "LAM":
-                iterated_position.style[vertical_position] = "34.4875%";
+                iterated_position.style[vertical_position] = "33.4875%";
                 iterated_position.style[left_side] = "31%";
                 break;
             case "RW":
@@ -522,7 +532,7 @@ export function calculate_positions(team, lineup_array, formation) {
         }
 
         // special changes for rarer formations
-        
+
         if (formation === 442) {
 
             if (position === "RCM") {
@@ -595,12 +605,21 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[left_side] = "25.2125%";
             } else if (position === "RCB") {
                 iterated_position.style[right_side] = "25.2125%";
-            } else if (formation === 343) {
-                if (position === "LCB") {
-                    iterated_position.style[left_side] = "25.2125%";
-                } else if (position === "RCB") {
-                    iterated_position.style[right_side] = "25.2125%";
-                }
+            }
+
+        } else if (formation === 343) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+        }
+
+        else if (formation === 3142) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
             }
         }
     }

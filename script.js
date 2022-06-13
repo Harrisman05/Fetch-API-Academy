@@ -44,7 +44,6 @@ async function getData() {
     // Extract match metadata from match object
 
     let match_id = random_match_object['match_id'];
-    // match_id = 7493;
     let match_date = random_match_object['match_date'];
     console.log(match_date);
     match_date = match_date.slice(0,4);
