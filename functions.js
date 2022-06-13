@@ -175,8 +175,6 @@ function sort_lineup(lineup_array) {
         return element;
     })
 
-    console.log(original_sorted_lineup);
-
     return original_sorted_lineup;
 }
 
@@ -191,30 +189,53 @@ export function extract_season_ids(competitions_data) {
 
     for (const competition_object of competitions_data) {
 
-            competition_ids.push(competition_object['competition_id']);
+        competition_ids.push(competition_object['competition_id']);
 
-            if (!comp_and_season_map.has(competition_object['competition_id'])) {
-                comp_and_season_map.set(competition_object['competition_id'], []);
-            }
+        if (!comp_and_season_map.has(competition_object['competition_id'])) {
+            comp_and_season_map.set(competition_object['competition_id'], []);
+        }
 
-            if (comp_and_season_map.has(competition_object['competition_id'])) {
-               comp_and_season_map.get(competition_object['competition_id']).push(competition_object['season_id']);
-            }
+        if (comp_and_season_map.has(competition_object['competition_id'])) {
+            comp_and_season_map.get(competition_object['competition_id']).push(competition_object['season_id']);
+        }
 
-            season_ids.push([competition_object['competition_id'],competition_object['season_id']]);
-    }  
+        season_ids.push([competition_object['competition_id'], competition_object['season_id']]);
+    }
 
     competition_ids = Array.from(new Set(competition_ids));
-    
+
     const random_competition_index = Math.floor(Math.random() * competition_ids.length);
-    const random_competition_id = competition_ids[random_competition_index];
+    let random_competition_id = competition_ids[random_competition_index];
 
     const random_season_id_array = comp_and_season_map.get(random_competition_id);
     const random_season_index = Math.floor(Math.random() * random_season_id_array.length);
-    const random_season_id = random_season_id_array[random_season_index];
+    let random_season_id = random_season_id_array[random_season_index];
+
+    console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
+    
+    
+    random_competition_id =  11
+    random_season_id = 21;
+    
 
     return [random_competition_id, random_season_id];
 }
+
+export function generate_random_match_id(match_object_array) {
+
+    console.log(match_object_array.length);
+    const random_match_id_index = Math.floor(Math.random() * match_object_array.length);
+    console.log(random_match_id_index);
+
+    let random_match_object = match_object_array[random_match_id_index];
+    random_match_object = match_object_array[4];
+    
+    console.log(random_match_object);
+
+    return random_match_object;
+
+}
+
 export function extract_tactical_setups(event_object) {
 
     const [home_team_tactical_data, away_team_tactical_data] = [event_object[0], event_object[1]];
@@ -224,10 +245,24 @@ export function extract_tactical_setups(event_object) {
 
 }
 
-export function extract_lineups(lineup_object) {
+export function extract_lineups(lineup_object, home_team, away_team) {
 
-    const home_team_lineup_object = lineup_object[0]['lineup'];
-    const away_team_lineup_object = lineup_object[1]['lineup'];
+    let home_team_lineup_object = '';
+    let away_team_lineup_object = '';
+
+    console.log(lineup_object);
+    
+    for (let i = 0; i < lineup_object.length; i++) {
+        if (lineup_object[i]["team_name"] === home_team) {
+            home_team_lineup_object = lineup_object[i]['lineup'];
+        } else if ((lineup_object[i]["team_name"] === away_team)) {
+            away_team_lineup_object = lineup_object[i]['lineup'];
+        }
+    }
+
+    console.log(lineup_object);
+    console.log(home_team_lineup_object);
+    
 
     function generate_lineups(lineup_object) {
 
@@ -297,7 +332,6 @@ export function extract_goal_events(event_object, home_team) {
 
 export function generate_lineup_table(lineup_array) {
 
-    console.log(lineup_array);
     let lineup_table = ''
     for (let nested_array of lineup_array) {
         const lineup_row = `<tr><td>${nested_array[0]}</td><td>${nested_array[1]}</td><td>${nested_array[2]}</td></tr>`;
@@ -314,7 +348,8 @@ export function populate_empty_pitch(team, lineup_array) {
 
         const last_name_array = lineup_array.map((element) => {
 
-            const split_names = element[2].split(" ");
+            const trimmed_names = element[2].trim();
+            const split_names = trimmed_names.split(" ");
 
             if (split_names.length > 1) {
 
@@ -333,6 +368,7 @@ export function populate_empty_pitch(team, lineup_array) {
                 return split_names[0];
             }
         });
+
         return last_name_array;
     }
 
@@ -348,12 +384,13 @@ export function populate_empty_pitch(team, lineup_array) {
         if (last_name_array[i - 1].length > 14) {
             player_span.style.fontSize = "12px";
         } else if (last_name_array[i - 1].length > 9) {
-            player_span.style.fontSize = "14px";
+            player_span.style.fontSize = "13px";
         }
     }
 }
 
 export function calculate_positions(team, lineup_array, formation) {
+
 
     for (let i = 1; i < lineup_array.length + 1; i++) {
 
@@ -368,8 +405,8 @@ export function calculate_positions(team, lineup_array, formation) {
             right_side = "left";
             transform_percentage = "50%";
         }
-
-        let position = lineup_array[i - 1][1]
+        
+        let position = lineup_array[i - 1][1];           
 
         switch (position) {
             case "GK":
@@ -382,12 +419,17 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[right_side] = "7.85%";
                 break;
             case "RWB":
+                iterated_position.style[vertical_position] = "17.2828125%";
+                iterated_position.style[right_side] = "7.85%";
                 break;
             case "RCB":
                 iterated_position.style[vertical_position] = "12.5%";
                 iterated_position.style[right_side] = "31%";
                 break;
             case "CB":
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "LCB":
                 iterated_position.style[vertical_position] = "12.5%";
@@ -398,6 +440,8 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[left_side] = "7.85%";
                 break;
             case "LWB":
+                iterated_position.style[vertical_position] = "17.2828125%";
+                iterated_position.style[left_side] = "7.85%";
                 break;
             case "RM":
                 iterated_position.style[vertical_position] = "25.275%";
@@ -412,7 +456,9 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[right_side] = "25.2125%"
                 break;
             case "CM":
-
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "CDM":
                 iterated_position.style[vertical_position] = "22.065625%";
@@ -476,7 +522,7 @@ export function calculate_positions(team, lineup_array, formation) {
         }
 
         // special changes for rarer formations
-
+        
         if (formation === 442) {
 
             if (position === "RCM") {
@@ -485,7 +531,7 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[right_side] = "31%";
             } else if (position === "LCM") {
                 iterated_position.style[left_side] = "31%";
-            }else if (position === "LDM") {
+            } else if (position === "LDM") {
                 iterated_position.style[left_side] = "31%";
             } else if (position === "RCF") {
                 iterated_position.style[vertical_position] = "36.4875%";
@@ -499,7 +545,7 @@ export function calculate_positions(team, lineup_array, formation) {
             }
 
         } else if (formation === 4411) {
-            if (position === "RCM" ) {
+            if (position === "RCM") {
                 iterated_position.style[right_side] = "31%";
             } else if (position === "RDM") {
                 iterated_position.style[right_side] = "31%";
@@ -509,11 +555,52 @@ export function calculate_positions(team, lineup_array, formation) {
                 iterated_position.style[left_side] = "31%";
             }
 
-        }
-
-        else if (formation === 451) {
+        } else if (formation === 451) {
             if (position === "CF") {
-                iterated_position.style[vertical_position] = "36.6625%";
+                // iterated_position.style[vertical_position] = "36.6625%";
+                iterated_position.style[vertical_position] = "41.75%";
+            }
+        } else if (formation === 352) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            } else if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            }
+
+        } else if (formation === 3421) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            } else if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            }
+
+        } else if (formation === 3412) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            } else if (formation === 343) {
+                if (position === "LCB") {
+                    iterated_position.style[left_side] = "25.2125%";
+                } else if (position === "RCB") {
+                    iterated_position.style[right_side] = "25.2125%";
+                }
             }
         }
     }
