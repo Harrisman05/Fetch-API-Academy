@@ -81,8 +81,6 @@ async function getData() {
     
     // Appending text to the DOM
 
-    cl_header_final.textContent += match_date;
-
     home_team_element.textContent += home_team;    
     away_team_element.textContent += away_team;    
     home_score_element.textContent += home_score;    

@@ -21,7 +21,7 @@ button {
 
 #cl_final_header {
     text-align: center;
-    margin:20px 0;
+    margin: 20px 0;
 }
 
 .match_result {
@@ -40,10 +40,12 @@ button {
     gap: 200px;
     width: fit-content;
     margin: auto;
+    flex-wrap: wrap;
 }
 
 .table_container table {
     text-align: center;
+    width: 300px;
 }
 
 .table_container table td {
@@ -79,12 +81,12 @@ button {
 }
 
 .pitch_container .away_circle {
-    background-color: rgb(234, 105, 105);
+    background-color: rgb(243, 157, 157);
     border: rgb(0, 0, 0) solid 1px;
 }
 
 .pitch_container .home_circle {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(175, 196, 248);
     border: rgb(0, 0, 0) solid 1px;
 }
 
