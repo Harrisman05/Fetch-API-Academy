@@ -214,8 +214,8 @@ export function extract_season_ids(competitions_data) {
     console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
 
 
-    // random_competition_id = 2;
-    // random_season_id = 44;
+    // random_competition_id = 16;
+    // random_season_id = 24;
 
     return [random_competition_id, random_season_id];
 }
@@ -613,9 +613,13 @@ export function calculate_positions(team, lineup_array, formation) {
             } else if (position === "RCB") {
                 iterated_position.style[right_side] = "25.2125%";
             }
-        }
-
-        else if (formation === 3142) {
+        } else if (formation === 3142) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+        } else if (formation === 541) {
             if (position === "LCB") {
                 iterated_position.style[left_side] = "25.2125%";
             } else if (position === "RCB") {

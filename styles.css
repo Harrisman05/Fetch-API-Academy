@@ -58,7 +58,6 @@ button {
 }
 
 .pitch_container {
-    border: 1px solid black;
     margin: 20px auto;
     width: fit-content;
     max-height: 100%;

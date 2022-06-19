@@ -11,21 +11,28 @@ const away_team_lineup_table = document.getElementById('away_team_lineup');
 
 // Imported functions
 
-import {extract_season_ids, generate_random_match_id, extract_tactical_setups, extract_lineups, extract_goal_events, generate_lineup_table, populate_empty_pitch, calculate_positions} from './functions.js'
+import {
+    extract_season_ids,
+    generate_random_match_id,
+    extract_tactical_setups,
+    extract_lineups,
+    extract_goal_events,
+    generate_lineup_table,
+    populate_empty_pitch,
+    calculate_positions
+} from './functions.js'
 
 // API endpoints
 
 let competition_id
 
-const competitions_url = 'https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json'
-
 async function getData() {
 
     // Make competition data get request
-
+    const competitions_url = 'https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json';
     const competitions_response = await fetch(competitions_url);
     const competitions_data = await competitions_response.json();
-    
+
     // Generate a random season id
 
     let [random_competition_id, random_season_id] = extract_season_ids(competitions_data);
@@ -33,27 +40,28 @@ async function getData() {
     // Generate Random Match id - Using competition_id + random_season_id
 
     console.log(random_competition_id, random_season_id);
-    
+
     const match_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/${random_competition_id}/${random_season_id}.json`
     const match_response = await fetch(match_url);
-    const match_object = await match_response.json();    
+    const match_object = await match_response.json();
     const random_match_object = generate_random_match_id(match_object);
     console.log(random_match_object);
-    
+
 
     // Extract match metadata from match object
 
     let match_id = random_match_object['match_id'];
+    // match_id = 18240;
     let match_date = random_match_object['match_date'];
     console.log(match_date);
-    match_date = match_date.slice(0,4);
+    match_date = match_date.slice(0, 4);
     const home_team = random_match_object['home_team']['home_team_name'];
     const away_team = random_match_object['away_team']['away_team_name'];
     const home_score = random_match_object['home_score'];
     const away_score = random_match_object['away_score'];
 
     console.log(match_id, match_date, home_team, away_team, home_score, away_score);
-    
+
 
     // Generate Formations Using Match ID
 
@@ -78,14 +86,14 @@ async function getData() {
     // Generate Goal Events
 
     const [home_team_goal_events, away_team_goal_events] = extract_goal_events(event_object, home_team);
-    
+
     // Appending text to the DOM
 
-    home_team_element.textContent += home_team;    
-    away_team_element.textContent += away_team;    
-    home_score_element.textContent += home_score;    
-    away_score_element.textContent += away_score;    
-   
+    home_team_element.textContent += home_team;
+    away_team_element.textContent += away_team;
+    home_score_element.textContent += home_score;
+    away_score_element.textContent += away_score;
+
     const home_team_table = generate_lineup_table(home_team_lineup);
     home_team_lineup_table.innerHTML = home_team_table;
 
@@ -103,9 +111,8 @@ async function getData() {
     calculate_positions('away', away_team_lineup, away_team_formation);
 }
 
-    https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
+https: //stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
     window.getData = getData; // modules are module scoped and not accessible to the window object
 
-    getData();
-
+getData();
