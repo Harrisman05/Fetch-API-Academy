@@ -21,7 +21,7 @@ button {
 
 #cl_final_header {
     text-align: center;
-    margin:20px 0;
+    margin: 20px 0;
 }
 
 .match_result {
@@ -40,10 +40,12 @@ button {
     gap: 200px;
     width: fit-content;
     margin: auto;
+    flex-wrap: wrap;
 }
 
 .table_container table {
     text-align: center;
+    width: 300px;
 }
 
 .table_container table td {
@@ -56,19 +58,20 @@ button {
 }
 
 .pitch_container {
-    border: 5px solid green;
     margin: 20px auto;
     width: fit-content;
+    max-height: 100%;
     position: relative;
 }
 
 .pitch_container img {
-    height: 650px;
+    height: 700px;
 }
 
 .pitch_container .player_circle {
     border-radius: 50%;
     font-weight: bold;
+    font-size: 14px;
     text-align: center;
     vertical-align: center;
     width: 28.375px;
@@ -77,78 +80,18 @@ button {
 }
 
 .pitch_container .away_circle {
-    background-color: red;
+    background-color: rgb(243, 157, 157);
     border: rgb(0, 0, 0) solid 1px;
 }
 
 .pitch_container .home_circle {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(175, 196, 248);
     border: rgb(0, 0, 0) solid 1px;
 }
 
 .span_names {
     width: max-content;
 }
-
-#pos1_away { /* Goalkeeper */
-    /* top: 35px; */
-    top: 5.5%;
-    left: calc(50% - (28.375px/2));
-}
-
-#pos2_away { /* RB */
-    /* top: 100px */
-    top: 15.7%;
-    /* left: 50px; */
-    left: 7.85%;
-}
-
-#pos3_away { /* RCB*/
-    top: 15.7%;
-    left: 33%;
-}
-
-#pos4_away { /* LCB*/
-    top: 15.7%;
-    right: 33%;
-}
-
-#pos5_away { /* LB */
-    top: 15.7%;
-    right: 7.85%;
-}
-
-#pos6_away { /* RM */
-    top: 28.7%;
-    left: 7.85%;
-}
-
-#pos7_away { /* RCM */
-    top: 28.7%;
-    left: 33%;
-}
-
-#pos8_away { /* LDM */
-    top: 24.7%;
-    right: 33%;
-}
-
-#pos9_away { /* LM */
-    top: 28.7%;
-    right: 7.85%;
-}
-
-#pos10_away { /* CAM */
-    top: 35.7%;
-    left: calc(50% - (28.375px/2));
-}
-
-#pos11_away { /* LCF */
-    top: 43.7%;
-    left: calc(50% - (28.375px/2));
-}
-
-/* Home Team positions */
 
 .circle_and_name_container {
     /* border: 1px black solid; */
@@ -160,63 +103,3 @@ button {
     font-weight: bold;
     position: absolute;
 }
-
-#container1_home { /* GK */
-    /* bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%); */
-}
-
-#container2_home { /* RB */
-    /* bottom: 12.5%;
-    right: 7.85%; */
-}
-
-#container3_home { /* RCB */
-    /* bottom: 12.5%;
-    right: 31%; */
-}
-
-#container4_home { /* LCB */
-    /* bottom: 12.5%;
-    left: 31%; */
-}
-
-#container5_home { /* LB */
-    /* bottom: 12.5%;
-    left: 7.85%; */
-}
-
-#container6_home { /* RCM */
-    /* bottom: 27.1%;
-    right: 31%; */
-}
-
-#container7_home { /* CDM */
-    /* bottom: 19.8%;
-    left: 50%;
-    transform: translateX(-50%); */
-}
-
-#container8_home { /* LCM */
-    /* bottom: 27.1%;
-    left: 31%; */
-}
-
-#container9_home { /* CAM */
-    /* bottom: 34.4%;
-    left: 50%;
-    transform: translateX(-50%); */
-}
-
-#container10_home { /* RCF */
-    /* bottom: 41.7%;
-    right: 31%; */
-}
-
-#container11_home { /* LCF */
-    /* bottom: 41.7%;
-    left: 31%; */
-}
-
-

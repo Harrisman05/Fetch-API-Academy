@@ -15,10 +15,6 @@
 
 <body>
 
-    <header>
-        <h1 id="cl_final_header">Champions League Final - </h1>
-    </header>
-
     <div class="match_result">
         <h2 id="home_team"></h2>
         <h2 id="away_team"></h2>
@@ -26,50 +22,57 @@
         <h1 id="away_score"></h1>
     </div>
 
-    <div class="table_container">
-        <table id="home_team_lineup"></table>
-        <table id="away_team_lineup"></table>
-    </div>
-
-    <button onclick="getData()"> Generate Match Data </button>
+    <button onClick="window.location.reload();">Generate Data</button>
 
     <div class="pitch_container">
         <img src="assets/football_pitch.svg" alt="empty_football_pitch">
-            <!-- <div class="away_team_pitch_positions">
-                <div class="player_circle away_circle" id="pos1_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos2_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos3_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos4_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos5_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos6_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos7_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos8_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos9_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos10_away">
-                    <span></span>
-                </div>
-                <div class="player_circle away_circle" id="pos11_away">
-                    <span></span>
-                </div>
-            </div> -->
+
+        <div class="away_team_pitch_positions">
+            <div class="circle_and_name_container" id="container1_away">
+                <span class="span_names" id="span1_away"></span>
+                <div class="player_circle away_circle" id="pos1_away"></div> 
+            </div>
+            <div class="circle_and_name_container" id="container2_away">
+                <span class="span_names" id="span2_away"></span>
+                <div class="player_circle away_circle" id="pos2_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container3_away">
+                <span class="span_names" id="span3_away"></span>
+                <div class="player_circle away_circle" id="pos3_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container4_away">
+                <span class="span_names" id="span4_away"></span>
+                <div class="player_circle away_circle" id="pos4_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container5_away">
+                <span class="span_names" id="span5_away"></span>
+                <div class="player_circle away_circle" id="pos5_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container6_away">
+                <span class="span_names" id="span6_away"></span>
+                <div class="player_circle away_circle" id="pos6_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container7_away">
+                <span class="span_names" id="span7_away"></span>
+                <div class="player_circle away_circle" id="pos7_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container8_away">
+                <span class="span_names" id="span8_away"></span>
+                <div class="player_circle away_circle" id="pos8_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container9_away">
+                <span class="span_names" id="span9_away"></span>
+                <div class="player_circle away_circle" id="pos9_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container10_away">
+                <span class="span_names" id="span10_away"></span>
+                <div class="player_circle away_circle" id="pos10_away"></div>
+            </div>
+            <div class="circle_and_name_container" id="container11_away">
+                <span class="span_names" id="span11_away"></span>
+                <div class="player_circle away_circle" id="pos11_away"></div>
+            </div>
+        </div>
             
             <div class="home_team_pitch_positions">
                 <div class="circle_and_name_container" id="container1_home">
@@ -117,6 +120,11 @@
                     <span class="span_names" id="span11_home"></span>
                 </div>
             </div>
+    </div>
+
+    <div class="table_container">
+        <table id="home_team_lineup"></table>
+        <table id="away_team_lineup"></table>
     </div>
 
 </body>

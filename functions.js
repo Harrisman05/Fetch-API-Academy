@@ -175,8 +175,6 @@ function sort_lineup(lineup_array) {
         return element;
     })
 
-    console.log(original_sorted_lineup);
-
     return original_sorted_lineup;
 }
 
@@ -185,34 +183,60 @@ function sort_lineup(lineup_array) {
 export function extract_season_ids(competitions_data) {
 
     let season_ids = [];
+    let competition_ids = [];
+
+    let comp_and_season_map = new Map();
 
     for (const competition_object of competitions_data) {
-        if (competition_object['competition_name'] === 'Champions League') {
-            season_ids.push(competition_object['season_id'])
+
+        competition_ids.push(competition_object['competition_id']);
+
+        if (!comp_and_season_map.has(competition_object['competition_id'])) {
+            comp_and_season_map.set(competition_object['competition_id'], []);
         }
+
+        if (comp_and_season_map.has(competition_object['competition_id'])) {
+            comp_and_season_map.get(competition_object['competition_id']).push(competition_object['season_id']);
+        }
+
+        season_ids.push([competition_object['competition_id'], competition_object['season_id']]);
     }
 
-    for (let i = 0; i < season_ids.length; i++) { // remove id 76 as it contains no data
-        if (season_ids[i] === 76) {
-            season_ids.splice(i, 1);
-        }
-    }
+    competition_ids = Array.from(new Set(competition_ids));
 
-    const random_index = Math.floor(Math.random() * season_ids.length);
+    const random_competition_index = Math.floor(Math.random() * competition_ids.length);
+    let random_competition_id = competition_ids[random_competition_index];
 
-    let random_season_id = season_ids[random_index];
-    random_season_id = 44;
-    console.log(season_ids);
+    const random_season_id_array = comp_and_season_map.get(random_competition_id);
+    const random_season_index = Math.floor(Math.random() * random_season_id_array.length);
+    let random_season_id = random_season_id_array[random_season_index];
 
-
-    // random_season_id = 25;
-    // random_season_id = 37; // liverpool vs AC Milan 3-3
-
-    console.log(random_season_id);
+    console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
 
 
-    return random_season_id;
+    // random_competition_id = 16;
+    // random_season_id = 24;
+
+    return [random_competition_id, random_season_id];
 }
+
+export function generate_random_match_id(match_object_array) {
+
+    console.log(match_object_array.length);
+    const random_match_id_index = Math.floor(Math.random() * match_object_array.length);
+    console.log(`Random match index - ${random_match_id_index}`);
+
+    let random_match_object = match_object_array[random_match_id_index];
+    random_match_object = match_object_array[random_match_id_index];
+
+
+
+    console.log(random_match_object);
+
+    return random_match_object;
+
+}
+
 export function extract_tactical_setups(event_object) {
 
     const [home_team_tactical_data, away_team_tactical_data] = [event_object[0], event_object[1]];
@@ -222,10 +246,26 @@ export function extract_tactical_setups(event_object) {
 
 }
 
-export function extract_lineups(lineup_object) {
+export function extract_lineups(lineup_object, home_team, away_team) {
 
-    const home_team_lineup_object = lineup_object[0]['lineup'];
-    const away_team_lineup_object = lineup_object[1]['lineup'];
+    console.log(lineup_object);
+
+
+    let home_team_lineup_object = '';
+    let away_team_lineup_object = '';
+
+    console.log(lineup_object);
+
+    for (let i = 0; i < lineup_object.length; i++) {
+        if (lineup_object[i]["team_name"] === home_team) {
+            home_team_lineup_object = lineup_object[i]['lineup'];
+        } else if ((lineup_object[i]["team_name"] === away_team)) {
+            away_team_lineup_object = lineup_object[i]['lineup'];
+        }
+    }
+
+    console.log(lineup_object);
+    console.log(home_team_lineup_object);
 
     function generate_lineups(lineup_object) {
 
@@ -236,6 +276,7 @@ export function extract_lineups(lineup_object) {
             if (data['positions'].length !== 0 && data['positions'][0]['start_reason'] === "Starting XI") {
 
                 let player_name;
+                let player_number;
 
                 if (data['player_nickname'] !== null) {
                     player_name = data['player_nickname'];
@@ -243,10 +284,11 @@ export function extract_lineups(lineup_object) {
                     player_name = data['player_name']
                 }
 
-                console.log(player_name);
-
-
-                const player_number = data['jersey_number'].toString();
+                if (data['jersey_number'] === 0) {
+                    player_number = "?"
+                } else {
+                    player_number = data['jersey_number'].toString();
+                }
 
                 const player_position = data['positions'][0]['position'];
                 const player_position_split = player_position.split(" ");
@@ -263,6 +305,8 @@ export function extract_lineups(lineup_object) {
             }
         }
         const sorted_lineup = sort_lineup(extracted_lineup);
+        console.log(sorted_lineup);
+
         return sorted_lineup;
     }
 
@@ -298,7 +342,6 @@ export function extract_goal_events(event_object, home_team) {
 
 export function generate_lineup_table(lineup_array) {
 
-    console.log(lineup_array);
     let lineup_table = ''
     for (let nested_array of lineup_array) {
         const lineup_row = `<tr><td>${nested_array[0]}</td><td>${nested_array[1]}</td><td>${nested_array[2]}</td></tr>`;
@@ -307,21 +350,21 @@ export function generate_lineup_table(lineup_array) {
     return lineup_table;
 }
 
-export function populate_empty_pitch(lineup_array) {
+export function populate_empty_pitch(team, lineup_array) {
 
     function extract_last_names(lineup_array) {
 
-        const last_name_prefixes = ["at", "Aït", "al", "Al", "ben", "Ben", "bin", "Bin", "ibn", "Ibn", "da", "Da", "das", "Das", "de", "De", "degli", "Degli", "del", "Del", "dele", "Dele", "della", "Della", "der", "Der", "di", "Di", "dos", "Dos", "du", "Du", "el", "El", "van", "Van", "von", "Von"];
+        const last_name_prefixes = ["at", "Aït", "al", "Al", "ben", "Ben", "bin", "Bin", "ibn", "Ibn", "da", "Da", "das", "Das", "de", "De", "degli", "Degli", "del", "Del", "dele", "Dele", "della", "Della", "der", "Der", "di", "Di", "dos", "Dos", "du", "Du", "el", "El", "ter", "Ter", "van", "Van", "von", "Von"];
 
         const last_name_array = lineup_array.map((element) => {
 
-            const split_names = element[2].split(" ");
-            console.log(split_names);
+            const trimmed_names = element[2].trim();
+            const split_names = trimmed_names.split(" ");
 
             if (split_names.length > 1) {
 
-                for (const prefix of last_name_prefixes) { // check for prefixes
-                    for (const word of split_names) {
+                for (const word of split_names) {
+                    for (const prefix of last_name_prefixes) {
                         if (word === prefix) {
                             const prefix_index = split_names.indexOf(prefix);
                             const prefix_second_name = split_names.slice(prefix_index).join(" ");
@@ -329,144 +372,259 @@ export function populate_empty_pitch(lineup_array) {
                         }
                     }
                 }
-
                 return split_names.at(-1);
 
             } else {
                 return split_names[0];
             }
         });
+
         return last_name_array;
     }
 
     const last_name_array = extract_last_names(lineup_array);
 
     for (let i = 1; i < last_name_array.length + 1; i++) {
-        const position_circle = document.querySelector(`#pos${i}_home`);
+        const position_circle = document.querySelector(`#pos${i}_${team}`);
         position_circle.textContent = lineup_array[i - 1][0];
 
-        const player_span = document.querySelector(`#span${i}_home`);
+        const player_span = document.querySelector(`#span${i}_${team}`);
         player_span.textContent = last_name_array[i - 1];
 
-        console.log(last_name_array[i-1].length);
-        
-
-        if  (last_name_array[i - 1].length > 10) {
-            player_span.style.fontSize = "12px";
-        } else if (last_name_array[i - 1].length > 8) {
-            player_span.style.fontSize = "14px";
+        if (last_name_array[i - 1].length > 14) {
+            player_span.style.fontSize = "11px";
+        } else if (last_name_array[i - 1].length > 10) {
+            player_span.style.fontSize = "13px";
         }
     }
 }
 
-export function calculate_positions(lineup_array) {
+export function calculate_positions(team, lineup_array, formation) {
+
 
     for (let i = 1; i < lineup_array.length + 1; i++) {
 
-        let iterated_position = document.getElementById(`container${i}_home`);
+        let iterated_position = document.getElementById(`container${i}_${team}`);
 
-        // for away formation, bottom = top, left = right and right = left
+        // default positions are for HOME TEAM
+        let [vertical_position, left_side, right_side, transform_percentage] = ["bottom", "left", "right", "-50%"];
 
-        switch (lineup_array[i - 1][1]) {
+        if (team === "away") {
+            vertical_position = "top";
+            left_side = "right";
+            right_side = "left";
+            transform_percentage = "50%";
+        }
+
+        let position = lineup_array[i - 1][1];
+
+        switch (position) {
             case "GK":
-                iterated_position.style.bottom = "3%";
-                iterated_position.style.left = "50%";
-                iterated_position.style.transform = "translateX(-50%)";
+                iterated_position.style[vertical_position] = "2.6%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "RB":
-                iterated_position.style.bottom = "12.5%";
-                iterated_position.style.right = "7.85%";
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[right_side] = "7.85%";
                 break;
             case "RWB":
+                iterated_position.style[vertical_position] = "17.2828125%";
+                iterated_position.style[right_side] = "7.85%";
                 break;
             case "RCB":
-                iterated_position.style.bottom = "12.5%";
-                iterated_position.style.right = "31%";
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[right_side] = "31%";
                 break;
             case "CB":
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "LCB":
-                iterated_position.style.bottom = "12.5%";
-                iterated_position.style.left = "31%";
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[left_side] = "31%";
                 break;
             case "LB":
-                iterated_position.style.bottom = "12.5%";
-                iterated_position.style.left = "7.85%";
+                iterated_position.style[vertical_position] = "12.5%";
+                iterated_position.style[left_side] = "7.85%";
                 break;
             case "LWB":
+                iterated_position.style[vertical_position] = "17.2828125%";
+                iterated_position.style[left_side] = "7.85%";
                 break;
             case "RM":
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[right_side] = "7.85%";
                 break;
             case "RCM":
-                iterated_position.style.bottom = "25.275%";
-                iterated_position.style.right = "25.2125%";
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[right_side] = "25.2125%";
                 break;
             case "RDM":
-                iterated_position.style.bottom = "22.065625%";
-                iterated_position.style.right = "25.2125%"
+                iterated_position.style[vertical_position] = "22.065625%";
+                iterated_position.style[right_side] = "25.2125%"
                 break;
             case "CM":
-
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "CDM":
-                iterated_position.style.bottom = "22.065625%";
-                iterated_position.style.left = "50%";
-                iterated_position.style.transform = "translateX(-50%)";
+                iterated_position.style[vertical_position] = "22.065625%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "LCM":
-                iterated_position.style.bottom = "25.275%";
-                iterated_position.style.left = "25.2125%";
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[left_side] = "25.2125%";
                 break;
             case "LDM":
-                iterated_position.style.bottom = "22.065625%";
-                iterated_position.style.left = "25.2125%"
+                iterated_position.style[vertical_position] = "22.065625%";
+                iterated_position.style[left_side] = "25.2125%"
                 break;
             case "LM":
-
+                iterated_position.style[vertical_position] = "25.275%";
+                iterated_position.style[left_side] = "7.85%";
                 break;
             case "RAM":
-
+                iterated_position.style[vertical_position] = "33.4875%";
+                iterated_position.style[right_side] = "31%";
                 break;
             case "CAM":
-                iterated_position.style.bottom = "31.6625%";
-                iterated_position.style.left = "50%";
-                iterated_position.style.transform = "translateX(-50%)";
+                iterated_position.style[vertical_position] = "31.6625%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "LAM":
-
+                iterated_position.style[vertical_position] = "33.4875%";
+                iterated_position.style[left_side] = "31%";
                 break;
             case "RW":
-                iterated_position.style.bottom = "38.05%";
-                iterated_position.style.right = "13.6375%";
+                iterated_position.style[vertical_position] = "38.05%";
+                iterated_position.style[right_side] = "13.6375%";
                 break;
             case "RCF":
-                iterated_position.style.bottom = "41.7%";
-                iterated_position.style.right = "31%";
+                iterated_position.style[vertical_position] = "41.7%";
+                iterated_position.style[right_side] = "31%";
                 break;
             case "SS":
-                iterated_position.style.bottom = "31.6625%";
-                iterated_position.style.left = "50%";
-                iterated_position.style.transform = "translateX(-50%)";
+                iterated_position.style[vertical_position] = "31.6625%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "CF":
-                iterated_position.style.bottom = "41.7%";
-                iterated_position.style.left = "50%";
-                iterated_position.style.transform = "translateX(-50%)";
+                iterated_position.style[vertical_position] = "41.7%";
+                iterated_position.style[left_side] = "50%";
+                iterated_position.style.transform = `translateX(${transform_percentage})`;
                 break;
             case "ST":
 
                 break;
             case "LCF":
-                iterated_position.style.bottom = "41.7%";
-                iterated_position.style.left = "31%";
+                iterated_position.style[vertical_position] = "41.7%";
+                iterated_position.style[left_side] = "31%";
                 break;
             case "LW":
-                iterated_position.style.bottom = "38.05%";
-                iterated_position.style.left = "13.6375%";
+                iterated_position.style[vertical_position] = "38.05%";
+                iterated_position.style[left_side] = "13.6375%";
                 break;
-
         }
 
-    }
+        // special changes for rarer formations
 
+        if (formation === 442) {
+
+            if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "RCF") {
+                iterated_position.style[vertical_position] = "36.4875%";
+            } else if (position === "LCF") {
+                iterated_position.style[vertical_position] = "36.4875%";
+            }
+
+        } else if (formation === 4141) {
+            if (position === "CF") {
+                iterated_position.style[vertical_position] = "36.6625%";
+            }
+
+        } else if (formation === 4411) {
+            if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            }
+
+        } else if (formation === 451) {
+            if (position === "CF") {
+                // iterated_position.style[vertical_position] = "36.6625%";
+                iterated_position.style[vertical_position] = "41.75%";
+            }
+        } else if (formation === 352) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            } else if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            }
+
+        } else if (formation === 3421) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            } else if (position === "RCM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "RDM") {
+                iterated_position.style[right_side] = "31%";
+            } else if (position === "LCM") {
+                iterated_position.style[left_side] = "31%";
+            } else if (position === "LDM") {
+                iterated_position.style[left_side] = "31%";
+            }
+
+        } else if (formation === 3412) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+
+        } else if (formation === 343) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+        } else if (formation === 3142) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+        } else if (formation === 541) {
+            if (position === "LCB") {
+                iterated_position.style[left_side] = "25.2125%";
+            } else if (position === "RCB") {
+                iterated_position.style[right_side] = "25.2125%";
+            }
+        }
+    }
 }
