@@ -19,7 +19,10 @@ import {
     extract_goal_events,
     generate_lineup_table,
     populate_empty_pitch,
-    calculate_positions
+    calculate_positions,
+    fit_canvas_to_pitch,
+    center_canvas_img,
+    generate_scaled_goal_event
 } from './functions.js'
 
 // API endpoints
@@ -111,8 +114,52 @@ async function getData() {
     calculate_positions('away', away_team_lineup, away_team_formation);
 }
 
-https: //stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
+// HTML Canvas for goal events
+
+console.log("hello");
+
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
+fit_canvas_to_pitch(canvas);
+
+const canvas_width = 465.956;
+const canvas_height = 622.669;
+
+context.fillRect(0,0,30, 30);
+context.fillRect(canvas_width - 30, 622.669 - 30, 30, 30); 
+
+const football_png = new Image();
+football_png.src = "assets/football.png";
+
+
+// bayern vs borssuia goal events 
+
+const mandzukic_start_coords = [117, 43];
+const mandzukic_end_coords = [120, 40.5];
+
+const robben_start_coords = [112,41];
+const robben_end_coords = [120, 42.6];
+
+
+const gundogan_start_coords = [108, 40];
+const gundogan_end_coords = [120, 43];
+
+    
+
+// generate_scaled_goal_event(canvas_width, canvas_height, mandzukic_start_coords);
+// generate_scaled_goal_event(canvas_width, canvas_height, mandzukic_end_coords);
+
+// generate_scaled_goal_event(canvas_width, canvas_height, robben_start_coords);
+// generate_scaled_goal_event(canvas_width, canvas_height, robben_end_coords);
+
+generate_scaled_goal_event(canvas_width, canvas_height, gundogan_start_coords);
+generate_scaled_goal_event(canvas_width, canvas_height, gundogan_end_coords);
+
+//stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
     window.getData = getData; // modules are module scoped and not accessible to the window object
 
+
 getData();
+
+

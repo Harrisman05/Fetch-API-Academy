@@ -103,3 +103,25 @@ button {
     font-weight: bold;
     position: absolute;
 }
+
+canvas {
+    position: absolute;
+    top: 5.525%;
+    left: 3.8%;
+    width: 92%;
+    height: 88.5%;
+}
+
+.pitch_container p {
+    position: absolute;
+}
+
+.pitch_container #zero_zero_coords {
+    position: absolute;
+}
+
+.pitch_container #max_coords {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

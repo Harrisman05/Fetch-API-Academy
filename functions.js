@@ -214,8 +214,8 @@ export function extract_season_ids(competitions_data) {
     console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
 
 
-    // random_competition_id = 16;
-    // random_season_id = 24;
+    random_competition_id = 16;
+    random_season_id = 24;
 
     return [random_competition_id, random_season_id];
 }
@@ -567,7 +567,6 @@ export function calculate_positions(team, lineup_array, formation) {
 
         } else if (formation === 451) {
             if (position === "CF") {
-                // iterated_position.style[vertical_position] = "36.6625%";
                 iterated_position.style[vertical_position] = "41.75%";
             }
         } else if (formation === 352) {
@@ -627,4 +626,44 @@ export function calculate_positions(team, lineup_array, formation) {
             }
         }
     }
+}
+
+export function fit_canvas_to_pitch(canvas) {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+export function center_canvas_img(image, x_coord, y_coord) {
+
+    const off_center_x_coord = x_coord;
+    const off_center_y_coord = y_coord;
+
+    const image_width = image.width;
+    const image_height = image.height;
+
+    const centered_x = (off_center_x_coord) - (image_width / 2);
+    const centered_y = (off_center_y_coord) - (image_height / 2);
+
+    return [centered_x, centered_y];
+
+}
+
+export function generate_scaled_goal_event(canvas_width, canvas_height, coordinates) {
+
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+
+    const transformed_coords = coordinates.reverse(); // reversed as statsbomb x and y access are in reverse order
+
+    const coords_scale_factor = [transformed_coords[0] / 80, transformed_coords[1] / 120];
+
+    const scaled_coords = [canvas_width * coords_scale_factor[0], canvas_height * coords_scale_factor[1]];
+
+    console.log(scaled_coords);
+    
+
+    const [centered_x_coord, centered_y_coord] = center_canvas_img(football_png, scaled_coords[0], scaled_coords[1])
+
+    context.drawImage(football_png, centered_x_coord, centered_y_coord);
+
 }
