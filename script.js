@@ -1,5 +1,3 @@
-const container = document.querySelector('.container');
-const cl_header_final = document.getElementById('cl_final_header');
 const home_team_element = document.getElementById('home_team');
 const away_team_element = document.getElementById('away_team');
 const home_score_element = document.getElementById('home_score');
@@ -19,7 +17,10 @@ import {
     extract_goal_events,
     generate_lineup_table,
     populate_empty_pitch,
-    calculate_positions
+    calculate_positions,
+    fit_canvas_to_pitch,
+    center_canvas_img,
+    generate_scaled_goal_event
 } from './functions.js'
 
 // API endpoints
@@ -41,17 +42,14 @@ async function getData() {
 
     console.log(random_competition_id, random_season_id);
 
-    const match_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/${random_competition_id}/${random_season_id}.json`
+    const match_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/${random_competition_id}/${random_season_id}.json`;
     const match_response = await fetch(match_url);
     const match_object = await match_response.json();
     const random_match_object = generate_random_match_id(match_object);
-    console.log(random_match_object);
-
 
     // Extract match metadata from match object
 
     let match_id = random_match_object['match_id'];
-    // match_id = 18240;
     let match_date = random_match_object['match_date'];
     console.log(match_date);
     match_date = match_date.slice(0, 4);
@@ -65,7 +63,8 @@ async function getData() {
 
     // Generate Formations Using Match ID
 
-    const event_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/${match_id}.json`
+    const event_url = `https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/${match_id}.json`;
+    console.log(event_url);    
     const event_response = await fetch(event_url);
     const event_object = await event_response.json();
 
@@ -85,7 +84,11 @@ async function getData() {
 
     // Generate Goal Events
 
-    const [home_team_goal_events, away_team_goal_events] = extract_goal_events(event_object, home_team);
+    const [home_team_goal_events, away_team_goal_events, home_goal_locations, away_goal_locations] = extract_goal_events(event_object, home_team);
+
+    console.log(home_goal_locations);
+    console.log(away_goal_locations);
+
 
     // Appending text to the DOM
 
@@ -109,10 +112,58 @@ async function getData() {
 
     calculate_positions('home', home_team_lineup, home_team_formation);
     calculate_positions('away', away_team_lineup, away_team_formation);
+
+
+    // HTML Canvas for goal events
+
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+    fit_canvas_to_pitch(canvas);
+
+    const canvas_width = 465.975;
+    const canvas_height = 623.037;
+
+    context.fillRect(0, 0, 30, 30);
+    context.fillRect(canvas_width - 30, 622.669 - 30, 30, 30);
+
+    const football_png = new Image();
+    football_png.src = "assets/football.png";
+
+
+    // Visualisations of goal events
+
+
+    for (let i = 0; i < home_goal_locations.length; i++) {
+        generate_scaled_goal_event(football_png, canvas_width, canvas_height, home_goal_locations[i].goal_start_location, home_goal_locations[i].goal_end_location, "home");
+    }
+
+
+    for (let i = 0; i < away_goal_locations.length; i++) {
+        generate_scaled_goal_event(football_png, canvas_width, canvas_height, away_goal_locations[i].goal_start_location, away_goal_locations[i].goal_end_location, "away");
+    }
+
+
+    function getCursorPosition(canvas, event) {
+        const rect = canvas.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        console.log("x: " + x + " y: " + y)
+    }
+
+    canvas.addEventListener('mousedown', function (e) {
+        getCursorPosition(canvas, e)
+    })
+
+
 }
 
-https: //stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 
-    window.getData = getData; // modules are module scoped and not accessible to the window object
+// https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/18240.json
+// https://github.com/statsbomb/open-data/blob/master/doc/Open%20Data%20Events%20v4.0.0.pdf
+
+//stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
+
+window.getData = getData; // modules are module scoped and not accessible to the window object
+
 
 getData();

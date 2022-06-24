@@ -214,24 +214,21 @@ export function extract_season_ids(competitions_data) {
     console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
 
 
-    // random_competition_id = 16;
-    // random_season_id = 24;
+    random_competition_id = 55;
+    random_season_id = 43;
 
     return [random_competition_id, random_season_id];
 }
 
 export function generate_random_match_id(match_object_array) {
 
-    console.log(match_object_array.length);
     const random_match_id_index = Math.floor(Math.random() * match_object_array.length);
     console.log(`Random match index - ${random_match_id_index}`);
 
     let random_match_object = match_object_array[random_match_id_index];
     random_match_object = match_object_array[random_match_id_index];
 
-
-
-    console.log(random_match_object);
+    random_match_object = match_object_array[3];
 
     return random_match_object;
 
@@ -248,13 +245,8 @@ export function extract_tactical_setups(event_object) {
 
 export function extract_lineups(lineup_object, home_team, away_team) {
 
-    console.log(lineup_object);
-
-
     let home_team_lineup_object = '';
     let away_team_lineup_object = '';
-
-    console.log(lineup_object);
 
     for (let i = 0; i < lineup_object.length; i++) {
         if (lineup_object[i]["team_name"] === home_team) {
@@ -264,8 +256,8 @@ export function extract_lineups(lineup_object, home_team, away_team) {
         }
     }
 
-    console.log(lineup_object);
-    console.log(home_team_lineup_object);
+    // console.log(lineup_object);
+    // console.log(home_team_lineup_object);
 
     function generate_lineups(lineup_object) {
 
@@ -305,7 +297,7 @@ export function extract_lineups(lineup_object, home_team, away_team) {
             }
         }
         const sorted_lineup = sort_lineup(extracted_lineup);
-        console.log(sorted_lineup);
+        // console.log(sorted_lineup);
 
         return sorted_lineup;
     }
@@ -321,23 +313,79 @@ export function extract_goal_events(event_object, home_team) {
     const home_goal_events = [];
     const away_goal_events = [];
 
+    const home_goal_locations = [];
+    const away_goal_locations = [];
+
+
     for (const event of event_object) {
 
-        if (event['type']['name'] == 'Shot' && event['shot']['outcome']['name'] === 'Goal' && event['period'] !== 5) {
+        if (event['type']['name'] === 'Shot' && event['shot']['outcome']['name'] === 'Goal' && event['period'] !== 5) {
 
             const timestamp = event['minute'].toString() + ':' + event['second'].toString();
             const goalscorer = event['player']['name'];
 
             const goal_event = goalscorer + ' - ' + timestamp;
 
+            const goal_start_location = event["location"];
+
+            let goal_end_location = event["shot"]["end_location"];
+            goal_end_location.pop();
+            const goal_location_object = {}
+
+            goal_location_object.goalscorer = goalscorer;
+            goal_location_object.goal_start_location = goal_start_location;
+            goal_location_object.goal_end_location = goal_end_location;
+
+
             if (event['possession_team']['name'] === home_team) { // determine if goalscorer is from home or away team
                 home_goal_events.push(goal_event);
+                home_goal_locations.push(goal_location_object);
             } else {
                 away_goal_events.push(goal_event);
+                away_goal_locations.push(goal_location_object);
             }
-        }
+
+        } else if (event["type"]["name"] === "Own Goal For") { // accounting for own goal
+
+            console.log("found own goal");
+            console.log(event);
+
+            const timestamp = event['minute'].toString() + ':' + event['second'].toString();
+
+            const own_goal_location_object = {}
+            own_goal_location_object.goal_start_location = event.location;
+            own_goal_location_object.goal_end_location = [120,40]; // hard coded end location as statsbomb data doesn't provide it
+            
+            const goals_against_event_id = event.related_events[0];
+            console.log(event.related_events);
+
+            for (const goals_against_event of event_object) { // messy, but using related id as foreign key to access name data for own goals
+
+                if (goals_against_event_id === goals_against_event.id) {
+
+                    console.log(goals_against_event);
+
+                    console.log(goals_against_event['player']['name']);
+
+                    own_goal_location_object.goalscorer = goals_against_event['player']['name'];
+                    
+                }
+                
+            }
+
+            const own_goal_event = own_goal_location_object.goalscorer + ' - ' + timestamp;
+
+            if (event['possession_team']['name'] === home_team) { // determine if goalscorer is from home or away team
+                home_goal_events.push(own_goal_event);
+                home_goal_locations.push(own_goal_location_object);
+            } else {
+                away_goal_events.push(own_goal_event);
+                away_goal_locations.push(own_goal_location_object);
+            }
+
+        } 
     }
-    return [home_goal_events, away_goal_events];
+    return [home_goal_events, away_goal_events, home_goal_locations, away_goal_locations];
 }
 
 export function generate_lineup_table(lineup_array) {
@@ -567,7 +615,6 @@ export function calculate_positions(team, lineup_array, formation) {
 
         } else if (formation === 451) {
             if (position === "CF") {
-                // iterated_position.style[vertical_position] = "36.6625%";
                 iterated_position.style[vertical_position] = "41.75%";
             }
         } else if (formation === 352) {
@@ -627,4 +674,62 @@ export function calculate_positions(team, lineup_array, formation) {
             }
         }
     }
+}
+
+export function fit_canvas_to_pitch(canvas) {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+export function center_canvas_img(image, x_coord, y_coord) {
+
+    const off_center_x_coord = x_coord;
+    const off_center_y_coord = y_coord;
+
+    const image_width = image.width;
+    const image_height = image.height;
+
+    const centered_x = (off_center_x_coord) - (image_width / 2);
+    const centered_y = (off_center_y_coord) - (image_height / 2);
+
+    return [centered_x, centered_y];
+
+}
+
+function transform_coordinates(football_png, coordinates, canvas_width, canvas_height, team) {
+
+    const swapped_coords = coordinates.reverse(); // reversed as statsbomb x and y access are in reverse order
+
+
+    if (team === "home") {
+        swapped_coords[0] = 80 - swapped_coords[0];
+        swapped_coords[1] = 120 - swapped_coords[1];
+    }
+
+    const coords_scale_factor = [swapped_coords[0] / 80, swapped_coords[1] / 120];
+
+    const scaled_coords = [canvas_width * coords_scale_factor[0], canvas_height * coords_scale_factor[1]];
+
+    let [centered_x_coord, centered_y_coord] = center_canvas_img(football_png, scaled_coords[0], scaled_coords[1]);
+
+    return [centered_x_coord, centered_y_coord];
+
+}
+
+export function generate_scaled_goal_event(football_png, canvas_width, canvas_height, start_coordinates, end_coordinates, team) {
+
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+
+    const [start_x_coord, start_y_coord] = transform_coordinates(football_png, start_coordinates, canvas_width, canvas_height, team);
+    const [end_x_coord, end_y_coord] = transform_coordinates(football_png, end_coordinates, canvas_width, canvas_height, team);
+
+    context.drawImage(football_png, start_x_coord, start_y_coord);
+
+    context.beginPath();
+    context.setLineDash([3, 3]);
+    context.moveTo(start_x_coord + football_png.width / 2, start_y_coord + football_png.height / 2);
+    context.lineTo(end_x_coord + football_png.width / 2, end_y_coord + football_png.height / 2);
+    context.stroke();
+
 }
