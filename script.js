@@ -120,8 +120,8 @@ async function getData() {
     const context = canvas.getContext('2d');
     fit_canvas_to_pitch(canvas);
 
-    const canvas_width = 465.96;
-    const canvas_height = 622.67;
+    const canvas_width = 465.975;
+    const canvas_height = 623.037;
 
     context.fillRect(0, 0, 30, 30);
     context.fillRect(canvas_width - 30, 622.669 - 30, 30, 30);
