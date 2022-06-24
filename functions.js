@@ -228,7 +228,7 @@ export function generate_random_match_id(match_object_array) {
     let random_match_object = match_object_array[random_match_id_index];
     random_match_object = match_object_array[random_match_id_index];
 
-    random_match_object = match_object_array[13];
+    random_match_object = match_object_array[3];
 
     return random_match_object;
 
@@ -315,11 +315,11 @@ export function extract_goal_events(event_object, home_team) {
 
     const home_goal_locations = [];
     const away_goal_locations = [];
-   
+
 
     for (const event of event_object) {
 
-        if (event['type']['name'] == 'Shot' && event['shot']['outcome']['name'] === 'Goal' && event['period'] !== 5) {
+        if (event['type']['name'] === 'Shot' && event['shot']['outcome']['name'] === 'Goal' && event['period'] !== 5) {
 
             const timestamp = event['minute'].toString() + ':' + event['second'].toString();
             const goalscorer = event['player']['name'];
@@ -344,7 +344,46 @@ export function extract_goal_events(event_object, home_team) {
                 away_goal_events.push(goal_event);
                 away_goal_locations.push(goal_location_object);
             }
-        }
+
+        } else if (event["type"]["name"] === "Own Goal For") { // accounting for own goal
+
+            console.log("found own goal");
+            console.log(event);
+
+            const timestamp = event['minute'].toString() + ':' + event['second'].toString();
+
+            const own_goal_location_object = {}
+            own_goal_location_object.goal_start_location = event.location;
+            own_goal_location_object.goal_end_location = [120,40]; // hard coded end location as statsbomb data doesn't provide it
+            
+            const goals_against_event_id = event.related_events[0];
+            console.log(event.related_events);
+
+            for (const goals_against_event of event_object) { // messy, but using related id as foreign key to access name data for own goals
+
+                if (goals_against_event_id === goals_against_event.id) {
+
+                    console.log(goals_against_event);
+
+                    console.log(goals_against_event['player']['name']);
+
+                    own_goal_location_object.goalscorer = goals_against_event['player']['name'];
+                    
+                }
+                
+            }
+
+            const own_goal_event = own_goal_location_object.goalscorer + ' - ' + timestamp;
+
+            if (event['possession_team']['name'] === home_team) { // determine if goalscorer is from home or away team
+                home_goal_events.push(own_goal_event);
+                home_goal_locations.push(own_goal_location_object);
+            } else {
+                away_goal_events.push(own_goal_event);
+                away_goal_locations.push(own_goal_location_object);
+            }
+
+        } 
     }
     return [home_goal_events, away_goal_events, home_goal_locations, away_goal_locations];
 }
@@ -660,7 +699,7 @@ export function center_canvas_img(image, x_coord, y_coord) {
 function transform_coordinates(football_png, coordinates, canvas_width, canvas_height, team) {
 
     const swapped_coords = coordinates.reverse(); // reversed as statsbomb x and y access are in reverse order
-    
+
 
     if (team === "home") {
         swapped_coords[0] = 80 - swapped_coords[0];
@@ -688,7 +727,7 @@ export function generate_scaled_goal_event(football_png, canvas_width, canvas_he
     context.drawImage(football_png, start_x_coord, start_y_coord);
 
     context.beginPath();
-    context.setLineDash([3,3]);
+    context.setLineDash([3, 3]);
     context.moveTo(start_x_coord + football_png.width / 2, start_y_coord + football_png.height / 2);
     context.lineTo(end_x_coord + football_png.width / 2, end_y_coord + football_png.height / 2);
     context.stroke();
