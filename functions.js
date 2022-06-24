@@ -214,8 +214,8 @@ export function extract_season_ids(competitions_data) {
     console.log(`Comp id - ${random_competition_id}, Season id - ${random_season_id}`);
 
 
-    random_competition_id = 55;
-    random_season_id = 43;
+    // random_competition_id = 55;
+    // random_season_id = 43;
 
     return [random_competition_id, random_season_id];
 }
@@ -228,7 +228,7 @@ export function generate_random_match_id(match_object_array) {
     let random_match_object = match_object_array[random_match_id_index];
     random_match_object = match_object_array[random_match_id_index];
 
-    random_match_object = match_object_array[3];
+    // random_match_object = match_object_array[3];
 
     return random_match_object;
 
