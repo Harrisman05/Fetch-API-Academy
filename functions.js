@@ -391,7 +391,7 @@ export function extract_goal_events(event_object, home_team) {
 
             const own_goal_event = own_goal_location_object.goalscorer + ' - ' + timestamp;
 
-            if (event['possession_team']['name'] === home_team) { // determine if goalscorer is from home or away team
+            if (event['team']['name'] === home_team) { // determine if goalscorer is from home or away team
                 home_goal_events.push(own_goal_event);
                 home_goal_locations.push(own_goal_location_object);
             } else {

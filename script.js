@@ -133,6 +133,8 @@ async function getData() {
 
     render_goal_events(away_goal_locations, canvas_width, canvas_height, "away");
 
+    // Get Mouse position for debugging
+
     function getCursorPosition(canvas, event) {
         const rect = canvas.getBoundingClientRect()
         const x = event.clientX - rect.left
