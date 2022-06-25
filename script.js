@@ -124,22 +124,42 @@ async function getData() {
     const canvas_height = 623.037;
 
     context.fillRect(0, 0, 30, 30);
-    context.fillRect(canvas_width - 30, 622.669 - 30, 30, 30);
+    context.fillRect(canvas_width - 30, canvas_height - 30, 30, 30);
 
-    const football_png = new Image();
-    football_png.src = "assets/football.png";
+    const black_football_png = new Image();
+    const red_football_png = new Image();
+    black_football_png.src = "assets/football.png";
+    red_football_png.src = "assets/red_football.png";
 
 
     // Visualisations of goal events
 
 
     for (let i = 0; i < home_goal_locations.length; i++) {
-        generate_scaled_goal_event(football_png, canvas_width, canvas_height, home_goal_locations[i].goal_start_location, home_goal_locations[i].goal_end_location, "home");
+
+        let render_football;
+
+        if (home_goal_locations[i].own_goal_check) {
+            render_football = red_football_png;
+        } else {
+            render_football = black_football_png;
+        }
+
+        generate_scaled_goal_event(render_football, canvas_width, canvas_height, home_goal_locations[i].goal_start_location, home_goal_locations[i].goal_end_location, "home");
     }
 
 
     for (let i = 0; i < away_goal_locations.length; i++) {
-        generate_scaled_goal_event(football_png, canvas_width, canvas_height, away_goal_locations[i].goal_start_location, away_goal_locations[i].goal_end_location, "away");
+
+        let render_football;
+
+        if (away_goal_locations[i].own_goal_check) {
+            render_football = red_football_png;
+        } else {
+            render_football = black_football_png;
+        }
+
+        generate_scaled_goal_event(render_football, canvas_width, canvas_height, away_goal_locations[i].goal_start_location, away_goal_locations[i].goal_end_location, "away");
     }
 
 
